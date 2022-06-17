@@ -1,0 +1,53 @@
+:root {
+  --sec-color: rgb(82, 236, 125);
+  --column-width: 60px;
+}
+
+.navbar,
+.linkbar {
+  width: var(--column-width);
+  height: auto;
+  position: fixed;
+  border: 2px solid var(--sec-color);
+
+  padding: 3vh 0;
+  text-align: center;
+}
+
+.navbar li,
+.linkbar li {
+  padding: 2px 0;
+}
+
+/*This part is entirely temporary*/
+.navbar a,
+.linkbar a {
+  font-size: 30px;
+  text-decoration: none;
+  color: white;
+}
+
+.navbar {
+  top: 0px;
+  right: 0px;
+  border-radius: 0 0 20px 20px;
+  z-index: 999;
+}
+
+.linkbar {
+  bottom: 0px;
+  left: 0px;
+  border-radius: 20px 20px 0 0;
+}
+
+.navbar ul {
+  list-style-type: none;
+}
+
+.linkbar ul {
+  list-style-type: none;
+}
+
+ul {
+  padding-left: 0;
+}

@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Mono&display=swap");
+
+:root {
+  --primary-color: #6ff7e8;
+  --bg-color: #0b132b;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: white;
+  font-family: "Open Sans", sans-serif !important;
+}
+
+.mono {
+  font-family: "Roboto Mono", monospace !important;
+}
+
+.primary {
+  color: var(--primary-color);
+}
