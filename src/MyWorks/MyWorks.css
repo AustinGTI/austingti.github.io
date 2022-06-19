@@ -104,12 +104,35 @@
 .linksdiv {
   position: absolute;
   top: 20%;
-  left: 20px;
   font-size: 30px;
+  padding: 0% 3%;
 }
 
 .linksdiv ul {
   list-style-type: none;
+}
+
+.mainwork .linksdiv {
+  bottom: 0%;
+  top: 55%;
+  height: fit-content;
+  width: 100%;
+}
+
+.mainwork .linksdiv ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 94%;
+}
+
+.workno2 .linksdiv {
+  right: 0px;
+  left: auto;
+}
+
+.workno2 .linksdiv li:nth-child(3) {
+  transform: scaleX(-1);
 }
 
 .descdiv {
@@ -118,4 +141,25 @@
   bottom: 0;
   border-radius: 0 0 20px 20px;
   backdrop-filter: blur(4px) brightness(0.5);
+}
+
+.work .logo {
+  height: max-content;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  position: absolute;
+  top: -10vh;
+  animation: sitelogo 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes sitelogo {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

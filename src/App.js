@@ -14,8 +14,8 @@ function App() {
       <NavBar />
       <div className="main">
         <MyProfile />
-        <MyWorks />
         <Resume />
+        <MyWorks />
       </div>
       <LinkBar />
     </>

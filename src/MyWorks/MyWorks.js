@@ -1,61 +1,82 @@
 import React, { useState } from "react";
 import "./MyWorks.css";
+import { ReactComponent as FirstSite } from "../data/icons/Site_1.svg";
+import { ReactComponent as SecondSite } from "../data/icons/Site_2.svg";
+import { ReactComponent as ThirdSite } from "../data/icons/Site_3.svg";
+import { ReactComponent as FourthSite } from "../data/icons/Site_4.svg";
+import { ReactComponent as FifthSite } from "../data/icons/Site_5.svg";
+import { ReactComponent as GitIcon } from "../data/icons/Github.svg";
+import { ReactComponent as SiteLinkIcon } from "../data/icons/SiteLink.svg";
+import { ReactComponent as FullViewIcon } from "../data/icons/Expand.svg";
 
-function Work({ data, ismain }) {
-  const { id, title, description } = data;
+function Work({ data, pos }) {
+  const ismain = pos === 1;
+  const { id, title, description, icon: Icon } = data;
 
-  console.log(id);
   return (
-    <div
-      className={`wk ${ismain ? "main" : ""}work`}
-      style={{
-        backgroundImage: `url(${require("../data/images/works_screenshots/" +
-          id.toString() +
-          ".jpg")})`,
-      }}
-    >
-      <div className="bddiv">
-        <div className="spandiv">
-          <span>{id}</span>
-          {/* <img
+    <>
+      <div
+        className={`wk ${ismain ? "main" : ""}work workno${pos}`}
+        style={{
+          backgroundImage: `url(${require("../data/images/works_screenshots/" +
+            id.toString() +
+            ".jpg")})`,
+        }}
+      >
+        <div className="bddiv">
+          <div className="spandiv">
+            <span className="mono">{"0" + id.toString()}</span>
+            {/* <img
           src={require("../data/images/works_screenshots/" +
             id.toString() +
             ".jpg")}
           alt={title}
         /> */}
-        </div>
-
-        <div className="linksdiv">
-          <ul>
-            <li>
-              <a href="/">Git</a>
-            </li>
-            <li>
-              <a href="/">Site</a>
-            </li>
-            {!ismain ? (
-              <li>
-                <a href="/">Full View</a>
-              </li>
-            ) : (
-              <></>
-            )}
-          </ul>
-        </div>
-
-        {ismain ? (
-          <div className="descdiv">
-            <p>{description}</p>
           </div>
-        ) : (
-          <></>
-        )}
 
-        <div className="infodiv">
-          <h2 className="mono">{title}</h2>
+          <div className="linksdiv">
+            <ul>
+              <li>
+                <a href="/">
+                  <GitIcon width="40px" height="auto" />
+                </a>
+              </li>
+              <li>
+                <a href="/">
+                  <SiteLinkIcon width="40px" height="auto" />
+                </a>
+              </li>
+              {!ismain ? (
+                <li>
+                  <a href="/">
+                    <FullViewIcon width="40px" height="auto" />
+                  </a>
+                </li>
+              ) : (
+                <></>
+              )}
+            </ul>
+          </div>
+
+          {ismain ? (
+            <div className="descdiv">
+              <p>{description}</p>
+            </div>
+          ) : (
+            <></>
+          )}
+
+          <div className="infodiv">
+            <h2 className="mono">{title}</h2>
+          </div>
+          {!ismain ? (
+            <Icon className="logo" width="50px" height="auto" />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -67,30 +88,35 @@ export default function MyWorks() {
       title: "taifa.io",
       description:
         "A website that tracks the relationship between politics and development across the country...",
+      icon: FirstSite,
     },
     {
       id: 2,
       title: "scribe.io",
       description:
         "A website that uses machine learning to analyze users typing habits and train them to type faster...",
+      icon: SecondSite,
     },
     {
       id: 3,
       title: "abode.me",
       description:
         "A website that tracks vital real estate factors across the country to determine the best value for money housing...",
+      icon: ThirdSite,
     },
     {
       id: 4,
       title: "mindstream.io",
       description:
         "A website that allows a user to create memory flashcards and use them to quickly memorize facts through smart repition...",
+      icon: FourthSite,
     },
     {
       id: 5,
       title: "99shades.io",
       description:
         "A website that provides an interface for selecting and iterating over every possible visible color..",
+      icon: FifthSite,
     },
   ];
   let carouselData;
@@ -105,20 +131,30 @@ export default function MyWorks() {
       <div id="worksbox">
         <div className="carousel">
           {carouselData.map((work, wi) => (
-            <Work key={wi} data={work} ismain={wi === 1} />
+            <Work key={wi} data={work} pos={wi} />
           ))}
         </div>
         <div className="scroller">
-          <ul>
-            {carouselData.map((work, wi) => (
-              <button
+          <ul
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              listStyleType: "none",
+            }}
+          >
+            {carouselData.map(({ id, icon: Icon }, wi) => (
+              <li
                 key={wi}
                 onClick={() => {
-                  setMain(work.id - 1);
+                  setMain(id - 1);
                 }}
+                style={{ padding: "0 5px" }}
               >
-                {work.title.slice(0, 3)}
-              </button>
+                <Icon
+                  width={["30px", "20px", "10px"][Math.abs(1 - wi)]}
+                  height="auto"
+                />
+              </li>
             ))}
           </ul>
         </div>

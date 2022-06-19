@@ -1,0 +1,51 @@
+:root {
+  --sec-color: rgb(82, 236, 125);
+  --column-width: 50px;
+}
+
+.navbar,
+.linkbar {
+  width: var(--column-width);
+  height: auto;
+  position: fixed;
+  border: 0px solid var(--sec-color);
+
+  padding: 3vh 0;
+  text-align: center;
+
+  li {
+    padding: 1px 0;
+  }
+
+  a {
+    font-size: 10px;
+    text-decoration: none;
+    color: white;
+  }
+  ul {
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.navbar {
+  top: 0px;
+  right: 0px;
+  border-radius: 0 0 20px 20px;
+  z-index: 999;
+
+  ul {
+    list-style-type: none;
+  }
+}
+
+.linkbar {
+  bottom: 0px;
+  left: 0px;
+  border-radius: 20px 20px 0 0;
+
+  ul {
+    list-style-type: none;
+  }
+}

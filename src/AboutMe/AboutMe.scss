@@ -1,0 +1,91 @@
+#myprofile {
+  position: relative;
+  background-color: inherit;
+  border-radius: 25px;
+  border: 0px solid var(--primary-color);
+  height: 80vh;
+  margin: 5vh 0 15vh 0;
+}
+
+#profilebox {
+  padding: 20vh 10vw 0 10vw;
+
+  h1 {
+    margin: 0 0;
+    color: var(--primary-color);
+    font-size: 20px;
+  }
+  h2 {
+    font-size: 55px;
+    margin: 0 0;
+  }
+  h3 {
+    margin: 0 0 5vh 0;
+    font-size: min(2.5vw, 25px);
+  }
+  p {
+    color: var(--primary-color);
+  }
+}
+
+#btndiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: fit-content;
+  margin: 5vh 20vh;
+  position: absolute;
+  bottom: 10vh;
+  left: 0;
+  right: 0;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+
+    > div {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      text-align: center;
+      flex-grow: 0;
+      margin: 10px 5px 0 5px;
+
+      > div {
+        width: 35px;
+      }
+
+      &:nth-child(2) {
+        align-self: center;
+        background-color: white;
+        height: 4px;
+        border-radius: 2px;
+        width: 10px;
+        animation-name: osillate;
+        animation-duration: 1s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+      }
+
+      @keyframes osillate {
+        from {
+          transform: translateX(-5px);
+        }
+        to {
+          transform: translateX(5px);
+        }
+      }
+    }
+
+    &:nth-child(2) {
+      flex-grow: 0;
+      background-color: white;
+      width: 0px;
+      height: 50px;
+      border-radius: 2px;
+      margin-top: 0;
+      margin: 0 10px;
+    }
+  }
+}
