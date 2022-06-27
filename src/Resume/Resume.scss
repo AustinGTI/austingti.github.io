@@ -23,7 +23,7 @@
 
   .resumecard {
     margin: 0 10px;
-    padding: 1vh 10px;
+    padding: 3vh 10px;
     background-color: inherit;
     color: white;
     border: 0px solid var(--primary-color);
@@ -31,9 +31,6 @@
     transition: 0;
     flex-grow: 1;
 
-    &:hover {
-      border-width: 3px;
-    }
     span.tag {
       float: right;
 
@@ -42,9 +39,13 @@
       }
     }
     span.title {
-      font-size: 15px;
+      font-size: 17px;
       float: left;
     }
+  }
+
+  .resumecard:hover {
+    background-color: #111b38 !important;
   }
   a {
     text-decoration: none;

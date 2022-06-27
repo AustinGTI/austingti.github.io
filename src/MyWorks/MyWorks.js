@@ -38,18 +38,18 @@ function Work({ data, pos }) {
             <ul>
               <li>
                 <a href="/">
-                  <GitIcon width="40px" height="auto" />
+                  <GitIcon width="40px" />
                 </a>
               </li>
               <li>
                 <a href="/">
-                  <SiteLinkIcon width="40px" height="auto" />
+                  <SiteLinkIcon width="40px" />
                 </a>
               </li>
               {!ismain ? (
                 <li>
                   <a href="/">
-                    <FullViewIcon width="40px" height="auto" />
+                    <FullViewIcon width="40px" />
                   </a>
                 </li>
               ) : (
@@ -69,11 +69,7 @@ function Work({ data, pos }) {
           <div className="infodiv">
             <h2 className="mono">{title}</h2>
           </div>
-          {!ismain ? (
-            <Icon className="logo" width="50px" height="auto" />
-          ) : (
-            <></>
-          )}
+          {!ismain ? <Icon className="logo" width="50px" /> : <></>}
         </div>
       </div>
     </>
@@ -150,10 +146,7 @@ export default function MyWorks() {
                 }}
                 style={{ padding: "0 5px" }}
               >
-                <Icon
-                  width={["30px", "20px", "10px"][Math.abs(1 - wi)]}
-                  height="auto"
-                />
+                <Icon width={["30px", "20px", "10px"][Math.abs(1 - wi)]} />
               </li>
             ))}
           </ul>

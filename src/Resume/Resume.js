@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import { ReactComponent as Work } from "../data/icons/Work.svg";
 import { ReactComponent as School } from "../data/icons/School.svg";
 import "./Resume.scss";
@@ -34,7 +34,6 @@ function ResumeCard({ data, setMain, id }) {
           </span>
         </div>
       </button>
-      <br />
     </>
   );
 }
@@ -100,7 +99,7 @@ function indicateTimeline(year, duration) {
   return range;
 }
 
-function ResumeTimeline({ timerange }) {
+function ResumeTimeline({ timerange, hoverTimerange }) {
   const yearRange = 5;
   const years = [2018, 2019, 2020, 2021, 2022].reduce(
     (total, v, vi) => [v, ...total],
@@ -111,6 +110,10 @@ function ResumeTimeline({ timerange }) {
       <svg height="100%" width="100%">
         {Array.from(Array(yearRange).keys()).map((v, vi) => {
           let currRange = indicateTimeline(years[vi], timerange);
+          let hvRange = undefined;
+          if (hoverTimerange != undefined) {
+            hvRange = indicateTimeline(years[vi], hoverTimerange);
+          }
           return (
             <g key={vi}>
               <line
@@ -129,14 +132,14 @@ function ResumeTimeline({ timerange }) {
               ) : (
                 <line
                   className="indicator"
-                  x1="53%"
+                  x1="52%"
                   y1={`${parseInt(
                     10 +
                       vi * (80 / yearRange) +
                       3 +
                       (80 / yearRange - 6) * currRange[1]
                   )}%`}
-                  x2="53%"
+                  x2="52%"
                   y2={`${parseInt(
                     10 +
                       vi * (80 / yearRange) +
@@ -146,6 +149,34 @@ function ResumeTimeline({ timerange }) {
                   style={{
                     strokeWidth: "5px",
                     stroke: "white",
+                    strokeLinecap: "round",
+                  }}
+                />
+              )}
+              {hoverTimerange === undefined || hvRange[0] - hvRange[1] === 0 ? (
+                ""
+              ) : (
+                <line
+                  className="indicator"
+                  x1="42%"
+                  y1={`${parseInt(
+                    10 +
+                      vi * (80 / yearRange) +
+                      3 +
+                      (80 / yearRange - 6) * hvRange[1]
+                  )}%`}
+                  x2="42%"
+                  y2={`${parseInt(
+                    10 +
+                      vi * (80 / yearRange) +
+                      3 +
+                      (80 / yearRange - 6) * hvRange[0]
+                  )}%`}
+                  style={{
+                    strokeWidth: "5px",
+                    stroke: "rgb(255,255,255,0.1)",
+                    filter:
+                      "drop-shadow(0 0 3px var(--primary-color)) brightness(1.5)",
                     strokeLinecap: "round",
                   }}
                 />
@@ -169,6 +200,72 @@ function ResumeTimeline({ timerange }) {
 
 export default function Resume() {
   const [mainEntry, setMainEntry] = useState(0);
+  const [hoverEntry, setHoverEntry] = useState(undefined);
+
+  useEffect(() => {
+    const mybuttons = document.querySelectorAll("div.resumelist > .resumecard");
+    mybuttons.forEach((v, vi) => {
+      if (
+        Array.from(v.parentElement.children).filter((v) =>
+          v.classList.contains("resumecard")
+        ).length -
+          1 -
+          vi ==
+        mainEntry
+      ) {
+        v.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
+          v.style.stroke = "var(--primary-color)";
+          v.style.strokeWidth = "16px";
+          v.style.filter = "drop-shadow(0 0 5px white) brightness(1.5)";
+        });
+        v.style.backgroundColor = "#111b38";
+      } else {
+        v.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
+          v.style.stroke = "white";
+          v.style.strokeWidth = "10px";
+          v.style.filter = "";
+        });
+        v.style.backgroundColor = "inherit";
+      }
+    });
+    const lineOnHover = function (e) {
+      if (e.type === "mouseenter") {
+        setHoverEntry(
+          Array.from(e.target.parentElement.children).filter((v) =>
+            v.classList.contains("resumecard")
+          ).length -
+            1 -
+            Array.from(e.target.parentElement.children)
+              .filter((v) => v.classList.contains("resumecard"))
+              .indexOf(e.target)
+        );
+        e.target.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
+          v.style.stroke = "var(--primary-color)";
+          v.style.strokeWidth = "16px";
+          v.style.filter = "drop-shadow(0 0 5px white) brightness(1.5)";
+        });
+      } else if (e.type === "mouseleave") {
+        setHoverEntry(undefined);
+        e.target.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
+          v.style.stroke = "white";
+          v.style.strokeWidth = "10px";
+          v.style.filter = "";
+        });
+      }
+    };
+
+    mybuttons.forEach((v) => {
+      v.addEventListener("mouseenter", lineOnHover);
+      v.addEventListener("mouseleave", lineOnHover);
+    });
+
+    return () => {
+      mybuttons.forEach((v) => {
+        v.removeEventListener("mouseenter", lineOnHover);
+        v.removeEventListener("mouseleave", lineOnHover);
+      });
+    };
+  }, [mainEntry]);
   useLayoutEffect(() => {
     if (mainEntry === undefined) setGrow(0);
     else setGrow(1);
@@ -229,7 +326,12 @@ export default function Resume() {
             />
           ))}
       </div>
-      <ResumeTimeline timerange={resume[mainEntry].duration} />
+      <ResumeTimeline
+        timerange={resume[mainEntry].duration}
+        hoverTimerange={
+          !isNaN(hoverEntry) ? resume[hoverEntry].duration : undefined
+        }
+      />
       <div className="resumedetail">
         {mainEntry === undefined ? (
           <div className="empty"></div>

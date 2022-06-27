@@ -5,17 +5,10 @@
 
 .navbar,
 .linkbar {
-  width: var(--column-width);
-  height: auto;
   position: fixed;
   border: 0px solid var(--sec-color);
 
-  padding: 3vh 0;
   text-align: center;
-
-  li {
-    padding: 1px 0;
-  }
 
   a {
     font-size: 10px;
@@ -26,6 +19,14 @@
     padding-left: 0;
     display: flex;
     flex-direction: column;
+
+    li {
+      padding: 1px 0;
+      position: absolute;
+      svg.icon {
+        width: 30px;
+      }
+    }
   }
 }
 
@@ -37,6 +38,14 @@
 
   ul {
     list-style-type: none;
+    div.title {
+      font-size: 12px;
+    }
+  }
+  div.lineup {
+    position: absolute;
+    right: 15px;
+    top: 10px;
   }
 }
 
@@ -47,5 +56,20 @@
 
   ul {
     list-style-type: none;
+  }
+  div.lineup {
+    position: absolute;
+    left: 15px;
+    bottom: 10px;
+  }
+
+  div.curtains {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: 60px;
+    z-index: 10;
+    background-color: var(--bg-color);
   }
 }

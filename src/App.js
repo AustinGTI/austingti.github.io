@@ -4,6 +4,7 @@ import NavBar from "./FixedComponents/NavBar";
 import MyWorks from "./MyWorks/MyWorks";
 import Resume from "./Resume/Resume";
 import "./App.css";
+import MyContacts from "./MyContacts/MyContacts";
 
 //OUR PALLETE
 //https://coolors.co/palette/131515-2b2c28-339989-7de2d1-fffafb
@@ -16,6 +17,7 @@ function App() {
         <MyProfile />
         <Resume />
         <MyWorks />
+        <MyContacts />
       </div>
       <LinkBar />
     </>
