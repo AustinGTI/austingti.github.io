@@ -1,0 +1,174 @@
+#myworks {
+  position: relative;
+  background-color: inherit;
+  height: 80vh;
+  margin: 22vh 0 2vh 0;
+}
+
+#worksbox {
+  padding: 5vh 10px 10vh 10px;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 56vh;
+
+  img {
+    max-width: 20vw;
+  }
+}
+
+.scroller {
+  max-width: fit-content;
+  margin: 5vh auto;
+  button {
+    padding: 5 10px;
+    margin: 0 10px;
+  }
+}
+
+.wk {
+  .spandiv {
+    display: inline-block;
+    background-color: var(--bg-color);
+    width: 50px;
+    font-size: 25px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 20px 0 20px 0;
+    text-align: center;
+  }
+
+  .infodiv {
+    position: absolute;
+    bottom: -15px;
+    right: 0;
+    left: 0;
+    transition: inherit;
+
+    font-size: 20px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .linksdiv {
+    position: absolute;
+    bottom: 20%;
+    font-size: 30px;
+    padding: 0% 3%;
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0 auto;
+    }
+  }
+
+  .logo {
+    height: max-content;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+    top: -10vh;
+    animation: sitelogo 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  @keyframes sitelogo {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.mainwork {
+  flex-grow: 1;
+  flex-shrink: 0;
+  width: 50%;
+  margin: 0 20px;
+  .infodiv {
+    top: -20vh;
+    font-size: 40px;
+    color: var(--primary-color);
+  }
+  .linksdiv {
+    bottom: 25%;
+    padding: 0;
+    height: fit-content;
+    width: 100%;
+    ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 94%;
+    }
+  }
+  .logo {
+    opacity: 0;
+  }
+
+  /*&.origin {
+     color: red;
+   }
+   &.originleft {
+     color: blue;
+
+   }
+   &.originright {
+     color: green;
+   }*/
+}
+
+.work {
+  flex-grow: 0;
+  flex-shrink: 1;
+  width: 25%;
+  height: 40vh;
+  align-self: flex-end;
+  transition: 250ms;
+  position: relative;
+}
+
+.infodiv {
+  width: fit-content;
+  height: fit-content;
+}
+
+.bddiv,
+.bgdiv {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 20px;
+  background-size: cover;
+}
+
+/* .work > .bddiv {
+  backdrop-filter: blur(4px);
+  transition: inherit;
+}
+
+.work > .bddiv:hover {
+  backdrop-filter: blur();
+} */
+
+.workno2 .linksdiv {
+  right: 0px;
+  left: auto;
+  li:nth-child(3) {
+    transform: scaleX(-1);
+  }
+}
+
+.descdiv {
+  padding: 10px 3vw;
+  position: absolute;
+  bottom: 0;
+  border-radius: 0 0 20px 20px;
+  backdrop-filter: blur(4px) brightness(0.5);
+}
