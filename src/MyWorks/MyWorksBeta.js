@@ -8,20 +8,54 @@ import { ReactComponent as FifthSite } from "../data/icons/Site_5.svg";
 import { ReactComponent as GitIcon } from "../data/icons/Github.svg";
 import { ReactComponent as SiteLinkIcon } from "../data/icons/SiteLink.svg";
 
+//AUXILLIARY FUNCTIONS.................
+
+function easeInOut(t) {
+  let sqt = t * t;
+  return sqt / (2 * (sqt - t) + 1);
+}
+
+//....................................
+
 function Pillar({ side, data }) {
+  if (side === "left") {
+    data = data.reduce((t, v) => [v, ...t], []);
+  }
+
   return (
     <div className={`pillar ${side}pillar`}>
       <div className="numberBox">
         <div className="numberSlider pillarslidercarrier">
+          <div className="slider edge">
+            <span>.</span>
+          </div>{" "}
           {data.map((v, vi) => (
             <div key={vi} className="slider mono">
               <span>{`0${v.id}`}</span>
             </div>
           ))}
+          <div className="slider edge">
+            <span>.</span>
+          </div>
         </div>
       </div>
       <div className="bgBox">
         <div className="bgSlider pillarslidercarrier">
+          <div className="slider edge">
+            <svg>
+              <line
+                x1={`50%`}
+                x2={`50%`}
+                y1={`10%`}
+                y2={`90%`}
+                style={{
+                  stroke: "white",
+                  strokeWidth: "4",
+                  strokeLinecap: "round",
+                }}
+              />
+            </svg>
+          </div>
           {data.map((v, vi) => (
             <div
               key={vi}
@@ -33,6 +67,21 @@ function Pillar({ side, data }) {
               }}
             ></div>
           ))}
+          <div className="slider edge">
+            <svg>
+              <line
+                x1={`50%`}
+                x2={`50%`}
+                y1={`10%`}
+                y2={`90%`}
+                style={{
+                  stroke: "white",
+                  strokeWidth: "4",
+                  strokeLinecap: "round",
+                }}
+              />
+            </svg>
+          </div>
         </div>
       </div>
     </div>
@@ -86,6 +135,7 @@ export default function MyWorksBeta() {
     const carriers = document.querySelectorAll(
       "div.slidecarrier:not(.btncarrier)"
     );
+
     const lsliders = document.querySelectorAll(
       "div.leftpillar .pillarslidercarrier"
     );
@@ -97,13 +147,28 @@ export default function MyWorksBeta() {
       v.style.width = `${worksData.length * 100}%`;
       v.style.transform = `translateX(0%)`;
       v.querySelectorAll("div.slider").forEach((s) => {
-        s.style.flexBasis = `${(100 / worksData.length).toFixed(2)}%`;
+        s.style.flexBasis = `${(100 / worksData.length).toFixed(3)}%`;
       });
     });
 
-    rsliders.forEach((v) => {
+    //setting the original slider positions and dimensions
+    lsliders.forEach((v) => {
+      v.style.height = `${(worksData.length + 2) * 100}%`;
+      v.querySelectorAll("div.slider").forEach((v) => {
+        v.style.height = `${(100 / (worksData.length + 2)).toFixed(3)}%`;
+      });
       v.style.transform = `translateY(-${
-        (100 / (worksData.length + 0)).toFixed(2) * 2
+        (100 / (worksData.length + 2)).toFixed(3) * (worksData.length + 1)
+      }%)`;
+    });
+
+    rsliders.forEach((v) => {
+      v.style.height = `${(worksData.length + 2) * 100}%`;
+      v.querySelectorAll("div.slider").forEach((v) => {
+        v.style.height = `${(100 / (worksData.length + 2)).toFixed(3)}%`;
+      });
+      v.style.transform = `translateY(-${
+        (100 / (worksData.length + 2)).toFixed(3) * 2
       }%)`;
     });
     //...........................................
@@ -116,6 +181,7 @@ export default function MyWorksBeta() {
     };
 
     function scrollCarousel(e) {
+      let pillarCarriers = [...lsliders, ...rsliders];
       let rawPosition =
         Array.from(
           e.target.parentElement.parentElement.parentElement.children
@@ -131,31 +197,74 @@ export default function MyWorksBeta() {
       //animating the scroll
       let animPerFrame =
         translation / (animationData.duration / animationData.perFrame);
+      let frameCounter = 0;
+      console.log(animPerFrame, translation);
       let currTranslation = 0;
+
       animationData.carrierTranslation.animId = setInterval(() => {
+        frameCounter++;
+
         if (
-          (currTranslation + animPerFrame) * animPerFrame >=
-          translation * animPerFrame
+          frameCounter >=
+          animationData.duration / animationData.perFrame //the multiplication by animPerFrame makes sure that the rhs value is usually higher than the lhs
         ) {
           carriers.forEach((v) => {
             v.style.transform = `translateX(${(
               currPosition + translation
-            ).toFixed(2)}%)`;
-            setToggleSizes(rawPosition);
+            ).toFixed(3)}%)`;
           });
+          pillarCarriers.forEach((v, vi) => {
+            let offset = 0;
+            if (vi > 1) offset = 2;
+            v.style.transform = `translateY(${
+              (
+                (vi <= 1
+                  ? -(100 / (worksData.length + 2)) * (worksData.length + 1)
+                  : 0) +
+                ((vi <= 1 ? -1 : 1) *
+                  (worksData.length * (currPosition + translation))) /
+                  (worksData.length + 2) +
+                offset * (-100 / (worksData.length + 2))
+              ).toFixed(3)
+              //this formula translates the slider translation to pillar translation
+            }%)`;
+          });
+          setToggleSizes(rawPosition);
           clearInterval(animationData.carrierTranslation.animId);
 
           return;
         }
+        //currTranslation += animPerFrame;
+        currTranslation =
+          translation *
+          easeInOut(
+            frameCounter / (animationData.duration / animationData.perFrame)
+          );
         carriers.forEach((v) => {
           v.style.transform = `translateX(${(
-            currPosition + (currTranslation += animPerFrame)
-          ).toFixed(2)}%)`;
-          setToggleSizes(
-            (-(currPosition + currTranslation) + 100 / worksData.length) /
-              (100 / worksData.length)
-          );
+            currPosition + currTranslation
+          ).toFixed(3)}%)`;
         });
+        pillarCarriers.forEach((v, vi) => {
+          let offset = 0;
+          if (vi > 1) offset = 2;
+          v.style.transform = `translateY(${
+            (
+              (vi <= 1
+                ? -(100 / (worksData.length + 2)) * (worksData.length + 1)
+                : 0) +
+              ((vi <= 1 ? -1 : 1) * //this line accounts for the opposite translation of the left pillar
+                (worksData.length * (currPosition + currTranslation))) /
+                (worksData.length + 2) +
+              offset * (-100 / (worksData.length + 2))
+            ).toFixed(3)
+            //this formula translates the slider translation to pillar translation
+          }%)`;
+        });
+        setToggleSizes(
+          (-(currPosition + currTranslation) + 100 / worksData.length) /
+            (100 / worksData.length)
+        );
       }, animationData.perFrame);
     }
     //.......................................
@@ -185,7 +294,7 @@ export default function MyWorksBeta() {
         v.removeEventListener("click", scrollCarousel);
       });
     };
-  }, []);
+  }, [worksData.length]);
 
   //change the position of the siteimage flex and the sitetext flex and the sitetoggle flex on change of loosescroller
 
@@ -194,6 +303,15 @@ export default function MyWorksBeta() {
       <div className="carousel">
         <Pillar data={worksData} side={"left"} />
         <div className="maindisplay">
+          <div className="sitenumber">
+            <div className="slidecarrier numbercarrier">
+              {worksData.map((v, vi) => (
+                <div key={vi} className="slider">
+                  <span className="mono">{`0${vi + 1}`}</span>
+                </div>
+              ))}
+            </div>
+          </div>
           <div className="siteimage">
             <div className="sitelinks">
               <div className="linkicons">

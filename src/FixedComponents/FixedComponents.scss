@@ -25,6 +25,13 @@
       position: absolute;
       svg.icon {
         width: 30px;
+        filter: drop-shadow(0 0 0px var(--primary-color));
+        transition: 200ms;
+      }
+
+      &:hover {
+        width: 35px;
+        filter: drop-shadow(0 0 4px var(--primary-color));
       }
     }
   }
@@ -71,5 +78,16 @@
     height: 60px;
     z-index: 10;
     background-color: var(--bg-color);
+  }
+}
+
+@keyframes hover {
+  from {
+    width: 30px;
+    filter: drop-shadow(0 0 0px var(--primary-color));
+  }
+  to {
+    width: 40px;
+    filter: drop-shadow(0 0 3px var(--primary-color));
   }
 }

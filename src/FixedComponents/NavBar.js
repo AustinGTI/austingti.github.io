@@ -186,11 +186,35 @@ export default function NavBar() {
       mynavbar.style.width = `${maxDims[0] + perIconWidth + rightOffset}px`;
       mynavbar.style.height = `${maxDims[1] + perIconHeight + topOffset}px`;
     };
+
+    const hoverFunc = (e) => {
+      let mysvg = e.target.querySelector("a > svg");
+      if (mysvg === null) {
+        return;
+      }
+      mysvg.classList.add("animatedplay");
+    };
+
+    const unhoverFunc = (e) => {
+      let mysvg = e.target.querySelector("a > svg");
+      if (mysvg === null) {
+        return;
+      }
+      mysvg.classList.remove("animatedplay");
+    };
+
     scrollFunc();
     window.addEventListener("scroll", scrollFunc);
+    //mybts.forEach((v) => v.addEventListener("mouseenter", hoverFunc));
+    //mybts.forEach((v) => v.addEventListener("mouseleave", unhoverFunc));
 
-    return () => window.removeEventListener("scroll", scrollFunc);
+    return () => {
+      window.removeEventListener("scroll", scrollFunc);
+      //mybts.forEach((v) => v.removeEventListener("mouseenter", hoverFunc));
+      //mybts.forEach((v) => v.removeEventListener("mouseleave", unhoverFunc));
+    };
   }, []);
+
   const [active, setActive] = useState("About Me");
   const activateBtn = (e) => {
     e.preventDefault();
