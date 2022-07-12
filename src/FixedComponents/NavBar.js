@@ -4,6 +4,7 @@ import { ReactComponent as AboutMeIcon } from "../data/icons/AboutMe.svg";
 import { ReactComponent as ProjectsIcon } from "../data/icons/Projects.svg";
 import { ReactComponent as ExpIcon } from "../data/icons/Work.svg";
 import { ReactComponent as ContactIcon } from "../data/icons/ContactB.svg";
+import { easeInOut } from "../auxFuncs/motion";
 
 export function IconBrace({ width, height }) {
   //const [ratio, setRatio] = useEffect(1);
@@ -60,15 +61,16 @@ export default function NavBar() {
       link: "#myprofile",
       icon: AboutMeIcon,
     },
-    {
-      title: "Projects",
-      link: "#myworks",
-      icon: ProjectsIcon,
-    },
+
     {
       title: "Resume",
       link: "#myresume",
       icon: ExpIcon,
+    },
+    {
+      title: "Projects",
+      link: "#myworksbeta",
+      icon: ProjectsIcon,
     },
     {
       title: "Contact",
@@ -89,12 +91,14 @@ export default function NavBar() {
   //transform to slide from vertical to horizontal at the top of the page
   useEffect(() => {
     const mynavbar = document.querySelector(".navbar");
+    const mynavlist = mynavbar.querySelector("ul");
     const mybts = mynavbar.querySelectorAll("li");
     mybts.forEach((v, vi) => {
       v.style.width = "75px";
 
       if (vi % 2) {
         let titlediv = v.querySelector("div.title");
+        v.classList.add("iconBtn");
         titlediv.style.paddingTop = `${parseInt(
           40 - v.querySelector("svg").getBoundingClientRect().height
         )}px`;
@@ -134,7 +138,10 @@ export default function NavBar() {
           v.querySelector("div.title").innerText = title.slice(
             0,
             parseInt(
-              (1 - y / (1 + navOffsetRight) / scrollRange) * title.length
+              Math.max(
+                0,
+                (1 - y / (1 + navOffsetRight) / btStats[vi]) * title.length
+              )
             )
           );
         }
@@ -185,46 +192,76 @@ export default function NavBar() {
       //setting the dimensions of the navdiv
       mynavbar.style.width = `${maxDims[0] + perIconWidth + rightOffset}px`;
       mynavbar.style.height = `${maxDims[1] + perIconHeight + topOffset}px`;
-    };
 
-    const hoverFunc = (e) => {
-      let mysvg = e.target.querySelector("a > svg");
-      if (mysvg === null) {
-        return;
-      }
-      mysvg.classList.add("animatedplay");
+      //setting the dimensions of the navlist
+      mynavlist.style.width = `${maxDims[0] + perIconWidth + rightOffset}px`;
+      mynavlist.style.height = `${maxDims[1] + perIconHeight + topOffset}px`;
     };
-
-    const unhoverFunc = (e) => {
-      let mysvg = e.target.querySelector("a > svg");
-      if (mysvg === null) {
-        return;
+    const animSts = {
+      duration: 1000,
+      perFrame: 30,
+      avgSpeed: 1000 / 1000, //to prevent different anims taking the same time.. avgspeed in px per ms
+      animId: undefined,
+      currframe: 0,
+    };
+    const scrollToPage = (e) => {
+      //clearning any currently running animation to prioritize current
+      clearInterval(animSts.animId);
+      animSts.currframe = 0;
+      animSts.animId = undefined;
+      //.............................
+      e.stopPropagation();
+      let base = e.target;
+      while (base.tagName.toLowerCase() != "li") {
+        base = base.parentElement;
       }
-      mysvg.classList.remove("animatedplay");
+      const btnIdx = Math.floor(
+        Array.from(base.parentElement.children).indexOf(base) / 2
+      );
+
+      let target = document
+        .querySelector(sections[btnIdx].link)
+        .getBoundingClientRect().y;
+      let currPos = window.scrollY;
+
+      //window.scrollBy(0, parseInt(target));
+
+      console.log(target, currPos);
+
+      animSts.animId = setInterval(() => {
+        animSts.currframe++;
+        if (
+          animSts.currframe >=
+          (animSts.avgSpeed * Math.abs(target)) / animSts.perFrame
+        ) {
+          console.log("why");
+          window.scrollTo(0, currPos + target);
+          clearInterval(animSts.animId);
+          return;
+        }
+        window.scrollTo(
+          0,
+          currPos +
+            target *
+              easeInOut(
+                animSts.currframe /
+                  ((animSts.avgSpeed * Math.abs(target)) / animSts.perFrame)
+              )
+        );
+      }, animSts.perFrame);
     };
 
     scrollFunc();
     window.addEventListener("scroll", scrollFunc);
-    //mybts.forEach((v) => v.addEventListener("mouseenter", hoverFunc));
-    //mybts.forEach((v) => v.addEventListener("mouseleave", unhoverFunc));
+    mybts.forEach((v) => v.addEventListener("click", scrollToPage));
 
     return () => {
       window.removeEventListener("scroll", scrollFunc);
-      //mybts.forEach((v) => v.removeEventListener("mouseenter", hoverFunc));
-      //mybts.forEach((v) => v.removeEventListener("mouseleave", unhoverFunc));
+      mybts.forEach((v) => v.removeEventListener("click", scrollToPage));
     };
-  }, []);
+  }, [sections]);
 
   const [active, setActive] = useState("About Me");
-  const activateBtn = (e) => {
-    e.preventDefault();
-    setActive(e.target.innerText);
-    let scrollTo =
-      document
-        .getElementById(e.target.href.match(/#\w+/gi)[0].slice(1))
-        .getBoundingClientRect().y + document.documentElement.scrollTop;
-    window.scrollTo(0, scrollTo);
-  };
 
   return (
     <div className="navbar">
@@ -236,17 +273,9 @@ export default function NavBar() {
               height={vi !== 0 ? (1 - Math.min(1, braceRatio + 0.5)) * 200 : 0}
             />
             <li>
-              <a
-                href={link}
-                onClick={activateBtn}
-                className={`navbtn${
-                  title.localeCompare(active) === 0 ? " navactive" : ""
-                }`}
-              >
-                {/* {title} */}
-                <Icon className="icon" />
-                <div className="title mono primary"></div>
-              </a>
+              {/* {title} */}
+              <Icon className="icon" />
+              <div className="title mono primary"></div>
             </li>
           </React.Fragment>
         ))}

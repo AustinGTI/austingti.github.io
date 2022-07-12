@@ -32,7 +32,7 @@ function BaseStack({ data }) {
 }
 
 export default function MyProfile() {
-  const frontEnd = [
+  /*const frontEnd = [
     {
       base: "HTML",
       icon: HtmlIcon,
@@ -78,6 +78,17 @@ export default function MyProfile() {
         { title: "SQLite", experience: 3 },
       ],
     },
+  ];*/
+
+  const frontEnd = [
+    { title: "react", experience: 4 },
+    { title: "jinja", experience: 3 },
+  ];
+
+  const backEnd = [
+    { title: "django", experience: 4 },
+    { title: "flask", experience: 2 },
+    { title: "node.js", experience: 1 },
   ];
 
   useEffect(() => {
@@ -423,7 +434,7 @@ export default function MyProfile() {
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
           aliquip ex ea commodo consequat.
         </p>
-        <div id="btndiv">
+        {/* <div id="btndiv">
           <div>
             <div className="head mono"></div>
 
@@ -449,6 +460,23 @@ export default function MyProfile() {
               ))}
             </div>
             <div className="brace"></div>
+          </div>
+        </div> */}
+        <div className="langsBox mono">
+          <div className="frontEnd endBox" endName="frontEnd">
+            {frontEnd.map((v, vi) => (
+              <div key={vi} className="langdiv">
+                {v.title}
+              </div>
+            ))}
+          </div>
+
+          <div className="backEnd endBox" endName="backEnd">
+            {backEnd.map((v, vi) => (
+              <div key={vi} className="langdiv">
+                {v.title}
+              </div>
+            ))}
           </div>
         </div>
       </div>

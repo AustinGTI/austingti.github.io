@@ -23,7 +23,7 @@ function ResumeCard({ data, setMain, id }) {
       >
         <div>
           <span className="title mono">
-            <span className="bullet">&gt;</span>
+            {/* <span className="bullet">&gt;</span> */}
             {" " + position} at{" "}
             <a href={link} target="_blank" rel="noreferrer">
               {organization}
@@ -89,6 +89,7 @@ function ResumeDetail({ data }) {
   );
 }
 
+//Timeline functions
 function indicateTimeline(year, duration) {
   const msPerYear = 1000 * 60 * 60 * 24 * 365;
   let yearDate = new Date(year, 1);
@@ -99,7 +100,95 @@ function indicateTimeline(year, duration) {
   return range;
 }
 
-function ResumeTimeline({ timerange, hoverTimerange }) {
+function TimelineSingle({ idx, x, yearRange, currRange, rl, vi }) {
+  return (
+    <line
+      className={`indicator group-${idx + 1} ${rl ? "right" : "left"}`}
+      x1={`${x}%`}
+      y1={`${parseInt(
+        10 + vi * (80 / yearRange) + 3 + (80 / yearRange - 6) * currRange[1]
+      )}%`}
+      x2={`${x}%`}
+      y2={`${parseInt(
+        10 + vi * (80 / yearRange) + 3 + (80 / yearRange - 6) * currRange[0]
+      )}%`}
+      style={{
+        strokeWidth: "5px",
+        stroke: "var(--primary-color)",
+        strokeLinecap: "round",
+      }}
+    />
+  );
+}
+
+function ResumeTimelineBeta({ timeranges }) {
+  const yearRange = 5;
+  const years = [2018, 2019, 2020, 2021, 2022].reduce(
+    (total, v, vi) => [v, ...total],
+    []
+  );
+
+  return (
+    <div className="resumetimeline">
+      <svg height="100%" width="100%">
+        {Array.from(Array(yearRange).keys()).map((v, vi) => {
+          return (
+            <g key={vi}>
+              <line
+                x1="47%"
+                y1={`${parseInt(10 + vi * (80 / yearRange) + 3)}%`}
+                x2="47%"
+                y2={`${parseInt(10 + (vi + 1) * (80 / yearRange) - 3)}%`}
+                style={{
+                  stroke: "white",
+                  strokeWidth: "5px",
+                  strokeLinecap: "round",
+                }}
+              />
+              {timeranges.map((y, yi) => {
+                let currRange = indicateTimeline(years[vi], y);
+                return currRange[0] - currRange[1] === 0 ? (
+                  ""
+                ) : (
+                  <g key={yi}>
+                    <TimelineSingle
+                      idx={yi}
+                      rl={true}
+                      x={52}
+                      yearRange={yearRange}
+                      currRange={currRange}
+                      vi={vi}
+                    />
+                    <TimelineSingle
+                      idx={yi}
+                      rl={false}
+                      x={42}
+                      yearRange={yearRange}
+                      currRange={currRange}
+                      vi={vi}
+                    />
+                  </g>
+                );
+              })}
+
+              <text
+                x="42%"
+                y={`${parseInt(10 + (vi + 1) * (80 / yearRange) + 1)}%`}
+                fill="white"
+                className="mono"
+                style={{ fontSize: "12px" }}
+              >
+                {years[vi]}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+function ResumeTimeline({ timerange, hoverTimerange, hovIsMain }) {
   const yearRange = 5;
   const years = [2018, 2019, 2020, 2021, 2022].reduce(
     (total, v, vi) => [v, ...total],
@@ -150,10 +239,18 @@ function ResumeTimeline({ timerange, hoverTimerange }) {
                     strokeWidth: "5px",
                     stroke: "white",
                     strokeLinecap: "round",
+                    ...(hovIsMain
+                      ? {
+                          filter:
+                            "drop-shadow(2px 0 3px var(--primary-color)) brightness(1.5)",
+                        }
+                      : {}),
                   }}
                 />
               )}
-              {hoverTimerange === undefined || hvRange[0] - hvRange[1] === 0 ? (
+              {hoverTimerange === undefined ||
+              hvRange[0] - hvRange[1] === 0 ||
+              hovIsMain ? (
                 ""
               ) : (
                 <line
@@ -175,9 +272,9 @@ function ResumeTimeline({ timerange, hoverTimerange }) {
                   style={{
                     strokeWidth: "5px",
                     stroke: "rgb(255,255,255,0.1)",
-                    filter:
-                      "drop-shadow(0 0 3px var(--primary-color)) brightness(1.5)",
                     strokeLinecap: "round",
+                    filter:
+                      "drop-shadow(2px 0 3px var(--primary-color)) brightness(1.5)",
                   }}
                 />
               )}
@@ -197,6 +294,7 @@ function ResumeTimeline({ timerange, hoverTimerange }) {
     </div>
   );
 }
+//......................
 
 export default function Resume() {
   const [mainEntry, setMainEntry] = useState(0);
@@ -239,20 +337,46 @@ export default function Resume() {
               .filter((v) => v.classList.contains("resumecard"))
               .indexOf(e.target)
         );
-        e.target.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
+        /*e.target.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
           v.style.stroke = "var(--primary-color)";
           v.style.strokeWidth = "16px";
           v.style.filter = "drop-shadow(0 0 5px white) brightness(1.5)";
-        });
+        });*/
       } else if (e.type === "mouseleave") {
         setHoverEntry(undefined);
-        e.target.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
+        /*e.target.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
           v.style.stroke = "white";
           v.style.strokeWidth = "10px";
           v.style.filter = "";
-        });
+        });*/
       }
     };
+
+    //setting the visible timelines
+    const timelines = document.querySelectorAll("svg line.indicator");
+    timelines.forEach((v) => {
+      if (v.classList.contains("right")) {
+        if (v.classList.contains(`group-${mainEntry + 1}`)) {
+          if (mainEntry === hoverEntry) {
+            v.classList.add("glow");
+          } else {
+            v.classList.remove("glow");
+          }
+          v.classList.add("visible");
+        } else {
+          v.classList.remove("visible");
+        }
+      } else if (v.classList.contains("left")) {
+        if (
+          v.classList.contains(`group-${hoverEntry + 1}`) &&
+          mainEntry != hoverEntry
+        ) {
+          v.classList.add("visible");
+        } else {
+          v.classList.remove("visible");
+        }
+      }
+    });
 
     mybuttons.forEach((v) => {
       v.addEventListener("mouseenter", lineOnHover);
@@ -265,7 +389,7 @@ export default function Resume() {
         v.removeEventListener("mouseleave", lineOnHover);
       });
     };
-  }, [mainEntry]);
+  }, [mainEntry, hoverEntry]);
   useLayoutEffect(() => {
     if (mainEntry === undefined) setGrow(0);
     else setGrow(1);
@@ -326,12 +450,14 @@ export default function Resume() {
             />
           ))}
       </div>
-      <ResumeTimeline
+      {/* <ResumeTimeline
         timerange={resume[mainEntry].duration}
         hoverTimerange={
           !isNaN(hoverEntry) ? resume[hoverEntry].duration : undefined
         }
-      />
+        hovIsMain={hoverEntry === mainEntry}
+      /> */}
+      <ResumeTimelineBeta timeranges={resume.map((v) => v.duration)} />
       <div className="resumedetail">
         {mainEntry === undefined ? (
           <div className="empty"></div>

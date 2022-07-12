@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./FixedComponents.scss";
-import { ReactComponent as EmailIcon } from "../data/icons/Email.svg";
-import { ReactComponent as LinkedInIcon } from "../data/icons/Linkedin.svg";
-import { ReactComponent as GithubIcon } from "../data/icons/Github.svg";
-import { ReactComponent as CVIcon } from "../data/icons/CV.svg";
+
 import { IconBrace, IconLineup } from "./NavBar";
+import { links } from "../MyContacts/MyContacts";
 
 export default function LinkBar() {
-  const links = [
-    { image: "email", link: "www.gmail.com", icon: EmailIcon },
-    { image: "linkedin", link: "www.linkedin.com", icon: LinkedInIcon },
-    { image: "github", link: "www.github.com", icon: GithubIcon },
-    { image: "cv", link: "www.pdf.com", icon: CVIcon },
-  ];
-
   //offset and icons size constants..
   const bottomOffset = 20;
   const perIconHeight = 58;
@@ -34,9 +25,11 @@ export default function LinkBar() {
 
       if (!v.querySelector("svg").classList.contains("icon")) {
         v.style.height = `${parseInt(perIconHeight / 2)}px`;
+      } else {
+        v.classList.add("iconBtn");
       }
     });
-    const scrollLimit = [1350, 1800];
+    const scrollLimit = [1426, 1800];
     const scrollRange = scrollLimit[1] - scrollLimit[0];
     /*const aspectRatio = 0.8;
     const stretchFactor = 3;
@@ -95,7 +88,7 @@ export default function LinkBar() {
                 left: `${leftOffset}px`,
               }}
             >
-              <a href={link}>
+              <a href={link} target="_blank">
                 <Icon className="icon" />
               </a>
             </li>

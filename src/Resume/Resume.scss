@@ -4,7 +4,9 @@
   position: relative;
   background-color: inherit;
   height: 80vh;
-  margin: 10vh 0;
+  padding: 10vh 0;
+  width: 95%;
+  margin: 0 auto;
 }
 
 .resumelist {
@@ -22,6 +24,7 @@
   }
 
   .resumecard {
+    position: relative;
     margin: 0 10px;
     padding: 3vh 10px;
     background-color: inherit;
@@ -36,17 +39,62 @@
 
       svg {
         height: 20px;
+        transition: 200ms;
       }
     }
     span.title {
       font-size: 17px;
       float: left;
     }
+    &::before {
+      content: "";
+      background-color: white;
+      width: 6px;
+      height: 6px;
+
+      position: absolute;
+
+      top: 0;
+      bottom: 0;
+      margin: auto 0;
+      left: 10px;
+
+      border-radius: 3px;
+      filter: drop-shadow(4px 0 4px var(--primary-color));
+
+      opacity: 0;
+      transition: 200ms;
+    }
+
+    &:hover {
+      //background-color: var(--primary-color-lite) !important;
+      &::before {
+        content: "";
+        background-color: white;
+        width: 6px;
+        height: 6px;
+
+        position: absolute;
+
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        left: -20px;
+
+        border-radius: 3px;
+        filter: drop-shadow(4px 0 5px var(--primary-color));
+
+        opacity: 1;
+      }
+
+      span.tag {
+        svg {
+          filter: drop-shadow(0 0 3px var(--primary-color));
+        }
+      }
+    }
   }
 
-  .resumecard:hover {
-    background-color: var(--primary-color-lite) !important;
-  }
   a {
     text-decoration: none;
     color: var(--primary-color);
@@ -78,6 +126,33 @@
   flex-grow: 0;
 
   .indicator {
-    stroke: var(--primary-color) !important;
+    &.left {
+      transition: 200ms;
+      filter: none;
+      opacity: 0;
+      transform: translateX(5px);
+
+      &.visible {
+        filter: drop-shadow(-2px 0 4px var(--primary-color-alpha));
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    &.right {
+      transition: 200ms;
+      filter: none;
+      opacity: 0;
+      transform: translateX(-5px);
+
+      &.visible {
+        opacity: 1;
+        transform: translateX(0);
+
+        &.glow {
+          filter: drop-shadow(2px 0 4px var(--primary-color-alpha));
+        }
+      }
+    }
   }
 }

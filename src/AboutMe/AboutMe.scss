@@ -4,7 +4,7 @@
   border-radius: 25px;
   border: 0px solid var(--primary-color);
   height: 80vh;
-  margin: 5vh 0 15vh 0;
+  padding: 5vh 0 15vh 0;
 }
 
 #profilebox {
@@ -25,6 +25,85 @@
   }
   p {
     color: var(--primary-color);
+  }
+
+  div.langsBox {
+    //background-color: red;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 2vh 0 5vh 0;
+
+    width: 55%;
+    .endBox {
+      //background-color: yellow;
+      position: relative;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: fit-content;
+      flex-grow: 0;
+
+      padding: 10px 0 30px 0;
+
+      .langdiv {
+        //background-color: green;
+        position: relative;
+
+        margin: 0 20px;
+
+        &::before {
+          content: "";
+          background-color: var(--primary-color);
+
+          position: absolute;
+          left: -12px;
+          bottom: 5px;
+
+          width: 6px;
+          height: 6px;
+          border-radius: 3px;
+
+          transition: filter 500ms;
+        }
+      }
+
+      /*&::after {
+        content: "";
+
+        position: absolute;
+
+        margin: 0 auto;
+        right: 0;
+        left: 0;
+        bottom: -40px;
+        overflow: hidden;
+
+        width: 0%;
+        height: 30px;
+
+        font-size: 15px;
+        text-align: center;
+
+        transition: width 300ms ease-in-out;
+      }*/
+
+      &:hover {
+        /*&::after {
+          width: 100%;
+        }*/
+
+        .langdiv {
+          &::before {
+            filter: drop-shadow(0 0 4px var(--primary-color));
+          }
+        }
+      }
+    }
   }
 }
 

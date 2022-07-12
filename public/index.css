@@ -1,9 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Mono&display=swap");
 
 :root {
-  --primary-color: #6ff7e8;
+  --primary-color: rgb(111, 247, 232);
   --bg-color: #0b132b;
   --primary-color-lite: #111b38;
+  --primary-color-alpha: rgba(111, 247, 232, 0.3);
 }
 
 body {
