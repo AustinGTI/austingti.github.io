@@ -5,6 +5,7 @@ import { ReactComponent as CssIcon } from "../data/icons/Stack/Css.svg";
 import { ReactComponent as JsIcon } from "../data/icons/Stack/Javascript.svg";
 import { ReactComponent as PythonIcon } from "../data/icons/Stack/Python.svg";
 import { ReactComponent as DbIcon } from "../data/icons/Stack/Db.svg";
+import PageBackground from "../SiteBackground/PageBackground";
 
 function BaseStack({ data }) {
   //const { base, icon: Icon, stack } = data;
@@ -421,6 +422,10 @@ export default function MyProfile() {
   return (
     <div id="myprofile">
       <div id="profilebox">
+        <PageBackground
+          parentid={"myprofile"}
+          codeSnippet={"displayProfile() // #1."}
+        />
         <div className="mono">
           <h1>Hi,</h1>
           <h1>My name is</h1>
@@ -463,7 +468,7 @@ export default function MyProfile() {
           </div>
         </div> */}
         <div className="langsBox mono">
-          <div className="frontEnd endBox" endName="frontEnd">
+          <div className="frontEnd endBox" endname="frontEnd">
             {frontEnd.map((v, vi) => (
               <div key={vi} className="langdiv">
                 {v.title}
@@ -471,7 +476,7 @@ export default function MyProfile() {
             ))}
           </div>
 
-          <div className="backEnd endBox" endName="backEnd">
+          <div className="backEnd endBox" endname="backEnd">
             {backEnd.map((v, vi) => (
               <div key={vi} className="langdiv">
                 {v.title}

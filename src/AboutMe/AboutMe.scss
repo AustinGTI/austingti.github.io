@@ -3,12 +3,13 @@
   background-color: inherit;
   border-radius: 25px;
   border: 0px solid var(--primary-color);
-  height: 80vh;
-  padding: 5vh 0 15vh 0;
+  height: 65vh;
+  padding: 20vh 5vw 15vh 5vw;
 }
 
 #profilebox {
-  padding: 20vh 10vw 0 10vw;
+  padding: 5vh 5vw 0 5vw;
+  position: relative;
 
   h1 {
     margin: 0 0;

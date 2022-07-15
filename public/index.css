@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap");
 
 :root {
   --primary-color: rgb(111, 247, 232);
@@ -11,12 +12,31 @@ body {
   background-color: var(--bg-color);
   color: white;
   font-family: "Open Sans", sans-serif !important;
+  overflow-x: hidden;
 }
 
 .mono {
   font-family: "Roboto Mono", monospace !important;
 }
 
+.ubuntu {
+  font-family: "Ubuntu Mono", monospace !important;
+}
+
 .primary {
   color: var(--primary-color);
+}
+div#root {
+}
+div#root > svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#myprofile,
+#myresume,
+#myworksbeta,
+#mycontacts {
+  background-color: var(--bg-color);
 }

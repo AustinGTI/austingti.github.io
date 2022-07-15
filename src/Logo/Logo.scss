@@ -1,0 +1,40 @@
+#root > div.logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 120px;
+  height: 120px;
+
+  svg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    width: 70%;
+    height: fit-content;
+    margin: auto auto;
+
+    .cls-1 {
+      stroke: rgb(111, 247, 232, 0.6);
+    }
+
+    rect.cls-2 {
+      fill: #1c326e;
+      stroke-width: 0;
+      transition: fill 50ms;
+    }
+
+    circle.cls-2 {
+      stroke-width: 0;
+      fill: white;
+      filter: drop-shadow(0 0 4px var(--primary-color));
+    }
+
+    cls-2 {
+      stroke-width: 0;
+    }
+  }
+}

@@ -1,7 +1,13 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, {
+  useState,
+  useLayoutEffect,
+  useEffect,
+  useCallback,
+} from "react";
 import { ReactComponent as Work } from "../data/icons/Work.svg";
 import { ReactComponent as School } from "../data/icons/School.svg";
 import "./Resume.scss";
+import PageBackground from "../SiteBackground/PageBackground";
 
 function setGrow(num) {
   let resdiv = document.getElementsByClassName("resumedetail")[0];
@@ -64,6 +70,7 @@ function durationToDate(duration) {
 
 function ResumeDetail({ data }) {
   const { organization, link, type, description, duration } = data;
+  console.log("new");
   return (
     <div>
       <span>{type === "school" ? <School /> : <Work />}</span>
@@ -188,7 +195,7 @@ function ResumeTimelineBeta({ timeranges }) {
   );
 }
 
-function ResumeTimeline({ timerange, hoverTimerange, hovIsMain }) {
+/*function ResumeTimeline({ timerange, hoverTimerange, hovIsMain }) {
   const yearRange = 5;
   const years = [2018, 2019, 2020, 2021, 2022].reduce(
     (total, v, vi) => [v, ...total],
@@ -200,7 +207,7 @@ function ResumeTimeline({ timerange, hoverTimerange, hovIsMain }) {
         {Array.from(Array(yearRange).keys()).map((v, vi) => {
           let currRange = indicateTimeline(years[vi], timerange);
           let hvRange = undefined;
-          if (hoverTimerange != undefined) {
+          if (hoverTimerange !== undefined) {
             hvRange = indicateTimeline(years[vi], hoverTimerange);
           }
           return (
@@ -293,14 +300,47 @@ function ResumeTimeline({ timerange, hoverTimerange, hovIsMain }) {
       </svg>
     </div>
   );
-}
+}*/
 //......................
 
 export default function Resume() {
   const [mainEntry, setMainEntry] = useState(0);
-  const [hoverEntry, setHoverEntry] = useState(undefined);
+  //const [hoverEntry, setHoverEntry] = useState(undefined);
+
+  const updateTimelines = useCallback(
+    (hoverEntry) => {
+      //setting the visible timelines
+      const timelines = document.querySelectorAll("svg line.indicator");
+      timelines.forEach((v) => {
+        if (v.classList.contains("right")) {
+          if (v.classList.contains(`group-${mainEntry + 1}`)) {
+            if (mainEntry === hoverEntry) {
+              v.classList.add("glow");
+            } else {
+              v.classList.remove("glow");
+            }
+            v.classList.add("visible");
+          } else {
+            v.classList.remove("visible");
+          }
+        } else if (v.classList.contains("left")) {
+          if (
+            v.classList.contains(`group-${hoverEntry + 1}`) &&
+            mainEntry !== hoverEntry
+          ) {
+            v.classList.add("visible");
+          } else {
+            v.classList.remove("visible");
+          }
+        }
+      });
+    },
+    [mainEntry]
+  );
 
   useEffect(() => {
+    let hoverEntry = undefined;
+
     const mybuttons = document.querySelectorAll("div.resumelist > .resumecard");
     mybuttons.forEach((v, vi) => {
       if (
@@ -308,7 +348,7 @@ export default function Resume() {
           v.classList.contains("resumecard")
         ).length -
           1 -
-          vi ==
+          vi ===
         mainEntry
       ) {
         v.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
@@ -328,56 +368,34 @@ export default function Resume() {
     });
     const lineOnHover = function (e) {
       if (e.type === "mouseenter") {
-        setHoverEntry(
+        //setHoverEntry(
+        hoverEntry =
           Array.from(e.target.parentElement.children).filter((v) =>
             v.classList.contains("resumecard")
           ).length -
-            1 -
-            Array.from(e.target.parentElement.children)
-              .filter((v) => v.classList.contains("resumecard"))
-              .indexOf(e.target)
-        );
+          1 -
+          Array.from(e.target.parentElement.children)
+            .filter((v) => v.classList.contains("resumecard"))
+            .indexOf(e.target);
+        //);
         /*e.target.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
           v.style.stroke = "var(--primary-color)";
           v.style.strokeWidth = "16px";
           v.style.filter = "drop-shadow(0 0 5px white) brightness(1.5)";
         });*/
       } else if (e.type === "mouseleave") {
-        setHoverEntry(undefined);
+        //setHoverEntry(undefined);
+        hoverEntry = undefined;
         /*e.target.querySelectorAll(".cls-1,.cls-2,.cls-3").forEach((v) => {
           v.style.stroke = "white";
           v.style.strokeWidth = "10px";
           v.style.filter = "";
         });*/
       }
+      updateTimelines(hoverEntry);
     };
 
-    //setting the visible timelines
-    const timelines = document.querySelectorAll("svg line.indicator");
-    timelines.forEach((v) => {
-      if (v.classList.contains("right")) {
-        if (v.classList.contains(`group-${mainEntry + 1}`)) {
-          if (mainEntry === hoverEntry) {
-            v.classList.add("glow");
-          } else {
-            v.classList.remove("glow");
-          }
-          v.classList.add("visible");
-        } else {
-          v.classList.remove("visible");
-        }
-      } else if (v.classList.contains("left")) {
-        if (
-          v.classList.contains(`group-${hoverEntry + 1}`) &&
-          mainEntry != hoverEntry
-        ) {
-          v.classList.add("visible");
-        } else {
-          v.classList.remove("visible");
-        }
-      }
-    });
-
+    updateTimelines(hoverEntry);
     mybuttons.forEach((v) => {
       v.addEventListener("mouseenter", lineOnHover);
       v.addEventListener("mouseleave", lineOnHover);
@@ -389,7 +407,8 @@ export default function Resume() {
         v.removeEventListener("mouseleave", lineOnHover);
       });
     };
-  }, [mainEntry, hoverEntry]);
+  }, [mainEntry, updateTimelines]);
+
   useLayoutEffect(() => {
     if (mainEntry === undefined) setGrow(0);
     else setGrow(1);
@@ -433,37 +452,43 @@ export default function Resume() {
   ];
   return (
     <div id="myresume">
-      <div className="resumelist">
-        {/* <button
+      <div className="resumebox">
+        <PageBackground
+          codeSnippet={"displayResume() // #2."}
+          parentid={"myresume"}
+        />
+        <div className="resumelist">
+          {/* <button
           className="contract"
           onClick={() => setMainEntry(undefined)}
         ></button> */}
-        <br />
-        {resume
-          .reduce((target, val) => [val, ...target], [])
-          .map((val, vi) => (
-            <ResumeCard
-              data={val}
-              key={vi}
-              id={resume.length - vi - 1}
-              setMain={setMainEntry}
-            />
-          ))}
-      </div>
-      {/* <ResumeTimeline
+          <br />
+          {resume
+            .reduce((target, val) => [val, ...target], [])
+            .map((val, vi) => (
+              <ResumeCard
+                data={val}
+                key={vi}
+                id={resume.length - vi - 1}
+                setMain={setMainEntry}
+              />
+            ))}
+        </div>
+        {/* <ResumeTimeline
         timerange={resume[mainEntry].duration}
         hoverTimerange={
           !isNaN(hoverEntry) ? resume[hoverEntry].duration : undefined
         }
         hovIsMain={hoverEntry === mainEntry}
       /> */}
-      <ResumeTimelineBeta timeranges={resume.map((v) => v.duration)} />
-      <div className="resumedetail">
-        {mainEntry === undefined ? (
-          <div className="empty"></div>
-        ) : (
-          <ResumeDetail data={resume[mainEntry || 0]} />
-        )}
+        <ResumeTimelineBeta timeranges={resume.map((v) => v.duration)} />
+        <div className="resumedetail">
+          {mainEntry === undefined ? (
+            <div className="empty"></div>
+          ) : (
+            <ResumeDetail data={resume[mainEntry || 0]} />
+          )}
+        </div>
       </div>
     </div>
   );

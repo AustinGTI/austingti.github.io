@@ -1,73 +1,53 @@
 #myresume {
+  position: relative;
+  padding: 20vh 0;
+  margin: 0 auto;
+  width: 100%;
+  background-color: transparent;
+}
+.resumebox {
   display: flex;
   flex-direction: row;
   position: relative;
-  background-color: inherit;
-  height: 80vh;
-  padding: 10vh 0;
-  width: 95%;
-  margin: 0 auto;
-}
+  height: 60vh;
+  padding: 0 5%;
 
-.resumelist {
-  display: flex;
-  flex-basis: 0;
-  flex-grow: 1;
-  flex-direction: column;
-  margin: auto auto;
-  max-width: 50vw;
-  transition: 500ms;
-
-  .contract {
-    width: fit-content;
-    margin: 0 auto;
-  }
-
-  .resumecard {
-    position: relative;
-    margin: 0 10px;
-    padding: 3vh 10px;
-    background-color: inherit;
-    color: white;
-    border: 0px solid var(--primary-color);
-    border-radius: 10px;
-    transition: 0;
+  .resumelist {
+    display: flex;
+    flex-basis: 0;
     flex-grow: 1;
+    flex-direction: column;
+    margin: auto auto;
+    max-width: 50vw;
+    transition: 500ms;
 
-    span.tag {
-      float: right;
+    .contract {
+      width: fit-content;
+      margin: 0 auto;
+    }
 
-      svg {
-        height: 20px;
-        transition: 200ms;
+    .resumecard {
+      position: relative;
+      margin: 0 10px;
+      padding: 3vh 10px;
+      color: white;
+      border: 0px solid var(--primary-color);
+      border-radius: 10px;
+      transition: background-color 300ms;
+      flex-grow: 1;
+
+      span.tag {
+        float: right;
+
+        svg {
+          height: 20px;
+          transition: 200ms;
+        }
       }
-    }
-    span.title {
-      font-size: 17px;
-      float: left;
-    }
-    &::before {
-      content: "";
-      background-color: white;
-      width: 6px;
-      height: 6px;
-
-      position: absolute;
-
-      top: 0;
-      bottom: 0;
-      margin: auto 0;
-      left: 10px;
-
-      border-radius: 3px;
-      filter: drop-shadow(4px 0 4px var(--primary-color));
-
-      opacity: 0;
-      transition: 200ms;
-    }
-
-    &:hover {
-      //background-color: var(--primary-color-lite) !important;
+      span.title {
+        font-size: 17px;
+        float: left;
+      }
       &::before {
         content: "";
         background-color: white;
@@ -79,25 +59,48 @@
         top: 0;
         bottom: 0;
         margin: auto 0;
-        left: -20px;
+        left: 10px;
 
         border-radius: 3px;
-        filter: drop-shadow(4px 0 5px var(--primary-color));
+        filter: drop-shadow(4px 0 4px var(--primary-color));
 
-        opacity: 1;
+        opacity: 0;
+        transition: 200ms;
       }
 
-      span.tag {
-        svg {
-          filter: drop-shadow(0 0 3px var(--primary-color));
+      &:hover {
+        //background-color: var(--primary-color-lite) !important;
+        &::before {
+          content: "";
+          background-color: white;
+          width: 6px;
+          height: 6px;
+
+          position: absolute;
+
+          top: 0;
+          bottom: 0;
+          margin: auto 0;
+          left: -20px;
+
+          border-radius: 3px;
+          filter: drop-shadow(4px 0 5px var(--primary-color));
+
+          opacity: 1;
+        }
+
+        span.tag {
+          svg {
+            filter: drop-shadow(0 0 3px var(--primary-color));
+          }
         }
       }
     }
-  }
 
-  a {
-    text-decoration: none;
-    color: var(--primary-color);
+    a {
+      text-decoration: none;
+      color: var(--primary-color);
+    }
   }
 }
 
@@ -120,7 +123,7 @@
 
 .resumetimeline {
   width: 10vw;
-  height: 80%;
+  height: 100%;
   margin: auto 0;
   flex-basis: 1;
   flex-grow: 0;

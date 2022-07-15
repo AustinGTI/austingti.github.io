@@ -6,6 +6,7 @@ import { ReactComponent as GithubIcon } from "../data/icons/Github.svg";
 import { ReactComponent as CVIcon } from "../data/icons/CV.svg";
 
 import "./MyContacts.scss";
+import PageBackground from "../SiteBackground/PageBackground";
 
 export const links = [
   {
@@ -49,7 +50,7 @@ export default function MyContacts() {
       currFrame: 0,
     };
     //transition the quote
-    const quoteElem = document.querySelector("div#mycontacts > h2");
+    const quoteElem = document.querySelector("div.contactsbox > h2");
 
     let myQuote = links[to].quotes[0]; //0 for now soon will be randomized...
     let prevQuote = quoteElem.innerText;
@@ -119,7 +120,7 @@ export default function MyContacts() {
     //add onhover to icons
     //display mainquote indicator
     const iconDivs = document.querySelectorAll(
-      "div#mycontacts > div.icons > a > div.icon"
+      "div.contactsbox > div.icons > a > div.icon"
     );
     iconDivs.forEach((v, vi) => {
       v.addEventListener("mouseenter", onHover);
@@ -143,26 +144,36 @@ export default function MyContacts() {
   return (
     <>
       <div id="mycontacts">
-        <h1 className="mono">Get in touch.</h1>
-        <h2 className="primary mono">Quote</h2>
-        <div className="bracespace">
-          <div className="brace"></div>
-        </div>
-        <div className="icons">
-          {links.map(({ title, icon: Icon, link }, vi) => (
-            <a href={link} key={vi} target="_blank">
-              <div className="icon">
-                <Icon />
-                <div className="title">
-                  <h3>{title}</h3>
+        <div className="contactsbox">
+          <PageBackground
+            codeSnippet={"displayContacts() // #4."}
+            parentid={"mycontacts"}
+          />
+          <h1 className="mono">Get in touch.</h1>
+          <h2 className="primary mono">Quote</h2>
+          <div className="bracespace">
+            <div className="brace"></div>
+          </div>
+          <div className="icons">
+            {links.map(({ title, icon: Icon, link }, vi) => (
+              <a href={link} key={vi} target="_blank">
+                <div className="icon">
+                  <Icon />
+                  <div className="title">
+                    <h3>{title}</h3>
+                  </div>
                 </div>
-              </div>
-            </a>
-          ))}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="footer">
-        <p className="mono">&gt; Built &amp; designed by Austin Gathii &lt;</p>
+        <div className="footer">
+          <p className="mono">
+            Built &amp; designed by <a href={links[2].link}>Austin Gathii</a>
+            <br />
+            gathiiaustin@gmail.com
+          </p>
+        </div>
       </div>
     </>
   );

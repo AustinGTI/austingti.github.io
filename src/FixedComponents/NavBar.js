@@ -199,7 +199,7 @@ export default function NavBar() {
     };
     const animSts = {
       duration: 1000,
-      perFrame: 30,
+      perFrame: 10,
       avgSpeed: 1000 / 1000, //to prevent different anims taking the same time.. avgspeed in px per ms
       animId: undefined,
       currframe: 0,
@@ -226,15 +226,12 @@ export default function NavBar() {
 
       //window.scrollBy(0, parseInt(target));
 
-      console.log(target, currPos);
-
       animSts.animId = setInterval(() => {
         animSts.currframe++;
         if (
           animSts.currframe >=
           (animSts.avgSpeed * Math.abs(target)) / animSts.perFrame
         ) {
-          console.log("why");
           window.scrollTo(0, currPos + target);
           clearInterval(animSts.animId);
           return;

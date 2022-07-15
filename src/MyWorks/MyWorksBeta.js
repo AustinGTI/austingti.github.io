@@ -10,6 +10,7 @@ import { ReactComponent as SiteLinkIcon } from "../data/icons/Link.svg";
 import { ReactComponent as NextIcon } from "../data/icons/Next.svg";
 
 import { easeInOut } from "../auxFuncs/motion";
+import PageBackground from "../SiteBackground/PageBackground";
 
 function Pillar({ side, data }) {
   if (side === "left") {
@@ -17,7 +18,7 @@ function Pillar({ side, data }) {
   }
 
   return (
-    <div className={`pillar ${side}pillar static mono`} title>
+    <div className={`pillar ${side}pillar static mono`}>
       <div className="numberBox">
         <div className="numberSlider pillarslidercarrier">
           <div className="slider edge">
@@ -182,8 +183,9 @@ export default function MyWorksBeta() {
 
     //animating the carrier motion between the slides
     const animationData = {
-      perFrame: 30,
+      perFrame: 10,
       duration: 500,
+      speed: 30 / 1000, //% per ms
       carrierTranslation: { animWindow: [0, 1], animId: undefined },
     };
 
@@ -239,17 +241,18 @@ export default function MyWorksBeta() {
       let translation = position - currPosition;
 
       //animating the scroll
-      let animPerFrame =
-        translation / (animationData.duration / animationData.perFrame);
+
       let frameCounter = 0;
       let currTranslation = 0;
+      let ttFrames = Math.abs(
+        translation / animationData.speed / animationData.perFrame
+      );
 
       animationData.carrierTranslation.animId = setInterval(() => {
         frameCounter++;
 
         if (
-          frameCounter >=
-          animationData.duration / animationData.perFrame //the multiplication by animPerFrame makes sure that the rhs value is usually higher than the lhs
+          frameCounter >= ttFrames //the multiplication by animPerFrame makes sure that the rhs value is usually higher than the lhs
         ) {
           carriers.forEach((v) => {
             v.style.transform = `translateX(${(
@@ -280,11 +283,7 @@ export default function MyWorksBeta() {
           return;
         }
         //currTranslation += animPerFrame;
-        currTranslation =
-          translation *
-          easeInOut(
-            frameCounter / (animationData.duration / animationData.perFrame)
-          );
+        currTranslation = translation * easeInOut(frameCounter / ttFrames);
         carriers.forEach((v) => {
           v.style.transform = `translateX(${(
             currPosition + currTranslation
@@ -384,62 +383,68 @@ export default function MyWorksBeta() {
 
   return (
     <div id="myworksbeta">
-      <div className="carousel">
-        <Pillar data={worksData} side={"left"} />
-        <div className="maindisplay">
-          <div className="sitenumber">
-            <div className="slidecarrier numbercarrier">
-              {worksData.map((v, vi) => (
-                <div key={vi} className="slider">
-                  <span className="mono">{`0${vi + 1}`}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="siteimage">
-            <div className="sitelinks">
-              <div className="linkicons">
-                <SiteLinkIcon />
-                <GitIcon />
+      <div className="myworksbetabox">
+        <PageBackground
+          codeSnippet={"displayProjects() // #3."}
+          parentid={"myworksbeta"}
+        />
+        <div className="carousel">
+          <Pillar data={worksData} side={"left"} />
+          <div className="maindisplay">
+            <div className="sitenumber">
+              <div className="slidecarrier numbercarrier">
+                {worksData.map((v, vi) => (
+                  <div key={vi} className="slider">
+                    <span className="mono">{`0${vi + 1}`}</span>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="slidecarrier imgcarrier">
-              {worksData.map((v, vi) => (
-                <div
-                  key={vi}
-                  className="slider"
-                  style={{
-                    backgroundImage: `url(${require("../data/images/works_screenshots/" +
-                      v.id.toString() +
-                      ".jpg")})`,
-                  }}
-                ></div>
-              ))}
-            </div>
-          </div>
-          <div className="sitetext">
-            <div className="slidecarrier txtcarrier">
-              {worksData.map((v, vi) => (
-                <div key={vi} className="slider">
-                  <h2 className="mono primary">{/*`0${vi + 1}|`*/}</h2>
-                  <h2 className="mono primary">{v.title}</h2>
-                  <p>{v.description}</p>
+            <div className="siteimage">
+              <div className="sitelinks">
+                <div className="linkicons">
+                  <SiteLinkIcon />
+                  <GitIcon />
                 </div>
-              ))}
+              </div>
+              <div className="slidecarrier imgcarrier">
+                {worksData.map((v, vi) => (
+                  <div
+                    key={vi}
+                    className="slider"
+                    style={{
+                      backgroundImage: `url(${require("../data/images/works_screenshots/" +
+                        v.id.toString() +
+                        ".jpg")})`,
+                    }}
+                  ></div>
+                ))}
+              </div>
+            </div>
+            <div className="sitetext">
+              <div className="slidecarrier txtcarrier">
+                {worksData.map((v, vi) => (
+                  <div key={vi} className="slider">
+                    <h2 className="mono primary">{/*`0${vi + 1}|`*/}</h2>
+                    <h2 className="mono primary">{v.title}</h2>
+                    <p>{v.description}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+          <Pillar data={worksData} side={"right"} />
         </div>
-        <Pillar data={worksData} side={"right"} />
-      </div>
-      <div className="selector">
-        <div className="slidecarrier btncarrier">
-          {worksData.map(({ icon: Icon }, vi) => (
-            <div key={vi} className="slider">
-              <div className="sitetoggle">
-                <Icon className="logo" />
+        <div className="selector">
+          <div className="slidecarrier btncarrier">
+            {worksData.map(({ icon: Icon }, vi) => (
+              <div key={vi} className="slider">
+                <div className="sitetoggle">
+                  <Icon className="logo" />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

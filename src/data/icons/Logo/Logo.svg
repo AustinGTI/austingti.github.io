@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 223.7 143.45">
+    <defs>
+        <style>.cls-1{fill:none;stroke:#fff;stroke-linejoin:bevel;stroke-width:10px;}.cls-2{fill:#fff;}</style>
+    </defs>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <rect class="cls-1" x="5" y="5" width="213.7" height="133.45" rx="19.53"/>
+            <rect class="cls-2 keyBtn" x="36.69" y="65.65" width="22" height="22" rx="7"/>
+            <rect class="cls-2 keyBtn" x="69.03" y="65.65" width="22" height="22" rx="7"/>
+            <rect class="cls-2 keyBtn" x="101.88" y="65.65" width="22" height="22" rx="7"/>
+            <rect class="cls-2 keyBtn" x="134.22" y="65.65" width="22" height="22" rx="7"/>
+            <rect class="cls-2 keyBtn" x="34.9" y="30.08" width="22" height="22" rx="7"/>
+            <rect class="cls-2 keyBtn" x="67.24" y="30.08" width="22" height="22" rx="7"/>
+            <rect class="cls-2 keyBtn" x="100.09" y="30.08" width="22" height="22" rx="7"/>
+            <rect class="cls-2 keyBtn" x="132.43" y="30.08" width="22" height="22" rx="7"/>
+            <rect class="cls-2 keyBtn" x="165.45" y="30.08" width="22" height="22" rx="7"/>
+            <rect class="cls-2 spaceBtn" x="74.02" y="100.31" width="75.66" height="21.45" rx="7"/>
+            <circle class="cls-2" cx="29.17" cy="114.95" r="8.09"/>
+            <rect class="cls-2 enterBtn" x="172.6" y="74.27" width="22" height="38.3" rx="6.71" transform="translate(367.2 186.84) rotate(180)"/>
+        </g>
+    </g>
+</svg>
