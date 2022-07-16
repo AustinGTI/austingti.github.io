@@ -26,8 +26,16 @@ body {
 .primary {
   color: var(--primary-color);
 }
-div#root {
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
+
 div#root > svg {
   position: absolute;
   top: 0;

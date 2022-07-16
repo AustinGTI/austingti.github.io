@@ -1,4 +1,11 @@
-import React, { useEffect, useMemo, useCallback, useReducer } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useCallback,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 
 import { ReactComponent as EmailIcon } from "../data/icons/Email.svg";
 import { ReactComponent as LinkedInIcon } from "../data/icons/Linkedin.svg";
@@ -38,83 +45,151 @@ export const links = [
 export default function MyContacts() {
   const [mainLink, setLink] = useReducer(
     (state, action) =>
-      action.type == "inc" ? (state + 1) % links.length : action.val,
+      action.type === "inc" ? (state + 1) % links.length : action.val,
     0
   );
+  const [randVal, rerenderComp] = useState(0.5);
+  let animActive = useMemo(() => true, []);
+  let linkCanChange = useRef(true);
+  let activeAnim = useRef(undefined);
+  let invTm = useRef(undefined);
 
-  const transitionElem = useCallback(function (to) {
-    const animSettings = {
-      animId: undefined,
-      duration: 1000,
-      perFrame: 30,
-      currFrame: 0,
-    };
-    //transition the quote
-    const quoteElem = document.querySelector("div.contactsbox > h2");
+  const transitionElem = useCallback(
+    function (to) {
+      const animSettings = {
+        animId: undefined,
+        duration: 30 / 1000, //chars per ms
+        perFrame: 30,
+        currFrame: 0,
+      };
+      if (document.visibilityState === "hidden" || animActive === false) {
+        return;
+      }
 
-    let myQuote = links[to].quotes[0]; //0 for now soon will be randomized...
-    let prevQuote = quoteElem.innerText;
-    let ttLen = myQuote.length + prevQuote.length;
+      //transition the quote
+      const quoteElem = document.querySelector("div.contactsbox > h2");
 
-    //transition the brace
-    const mybrace = document.querySelector("div.bracespace > div");
+      let myQuote = links[to].quotes[0]; //0 for now soon will be randomized...
+      let prevQuote = quoteElem.innerText;
+      let ttLen = myQuote.length + prevQuote.length;
 
-    const noReg = /[\d.-]+/;
-    let currPos = parseFloat(mybrace.style.left.match(noReg));
-    let toPos = 100 / links.length / 2 + (100 / links.length) * to;
+      if (prevQuote === myQuote) {
+        return;
+      }
 
-    animSettings.animId = setInterval(
-      (ams) => {
-        ams.currFrame++;
-        if (ams.currFrame > ams.duration / ams.perFrame) {
-          mybrace.style.left = `${toPos}%`;
-          clearInterval(ams.animId);
-        }
-        quoteElem.innerText =
-          prevQuote.slice(
-            0,
-            Math.max(
+      clearInterval(activeAnim.current);
+
+      //transition the brace
+      const mybrace = document.querySelector("div.bracespace > div");
+
+      const noReg = /[\d.-]+/;
+      let currPos = parseFloat(mybrace.style.left.match(noReg));
+      let toPos = 100 / links.length / 2 + (100 / links.length) * to;
+
+      let ttFrames = ttLen / animSettings.duration / animSettings.perFrame;
+
+      animSettings.animId = setInterval(
+        (ams, ttf) => {
+          ams.currFrame++;
+          if (ams.currFrame > ttf) {
+            mybrace.style.left = `${toPos}%`;
+            clearInterval(ams.animId);
+            return;
+          }
+          quoteElem.innerText =
+            prevQuote.slice(
               0,
-              prevQuote.length -
-                parseInt(
-                  (ams.currFrame / (ams.duration / ams.perFrame)) * ttLen
-                )
-            )
-          ) +
-          myQuote.slice(
-            0,
-            Math.max(
+              Math.max(
+                0,
+                prevQuote.length - parseInt((ams.currFrame / ttf) * ttLen)
+              )
+            ) +
+            myQuote.slice(
               0,
-              parseInt(
-                (ams.currFrame / (ams.duration / ams.perFrame)) * ttLen
-              ) - prevQuote.length
-            )
-          );
-        mybrace.style.left = `${
-          currPos +
-          (toPos - currPos) * (ams.currFrame / (ams.duration / ams.perFrame))
-        }%`;
-      },
-      animSettings.perFrame,
-      animSettings
-    );
+              Math.max(
+                0,
+                parseInt((ams.currFrame / ttf) * ttLen) - prevQuote.length
+              )
+            );
+          mybrace.style.left = `${
+            currPos + (toPos - currPos) * (ams.currFrame / ttf)
+          }%`;
+        },
+        animSettings.perFrame,
+        animSettings,
+        ttFrames
+      );
+      activeAnim.current = animSettings.animId;
+    },
+    [activeAnim, animActive] //i have no idea why these 2 variables have the same name..
+  );
+
+  const resetTimeout = useCallback((t = 5 * 1000) => {
+    return setTimeout(() => {
+      if (
+        document.visibilityState === "visible" &&
+        document.querySelector("#mycontacts").getBoundingClientRect().y < 10 &&
+        linkCanChange.current
+      ) {
+        console.log("incing...");
+        setLink({ type: "inc" });
+      }
+    }, t);
   }, []);
 
-  //set a timeout to refresh the quote in 10 seconds
-
   useEffect(() => {
-    transitionElem(mainLink);
+    const resetAnim = (delay) => {
+      setTimeout(() => {
+        const iconDivs = document.querySelectorAll(
+          "div.contactsbox > div.icons > a > div.icon"
+        );
+        iconDivs.forEach((v, vi) => {
+          v.classList.remove("main");
+        });
+        document.querySelector("div.contactsbox > h2").innerText = "          ";
+      }, delay);
+    };
 
-    const incLink = setTimeout(() => {
-      setLink({ type: "inc" });
-    }, 20 * 1000);
+    const print = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        setLink({ type: "set", val: 0 });
+        rerenderComp(Math.random());
+        console.log("intersect");
+      } else {
+        resetAnim(1000);
+      }
+    };
 
+    let contactspage = document.querySelector("#mycontacts");
+    const observer = new IntersectionObserver(print, {
+      root: null,
+      rootMargin: "0px",
+      threshold: "0.9",
+    });
+    observer.observe(contactspage);
+
+    const resetMainLink = (e) => {
+      if (document.visibilityState === "visible") {
+        setLink({ type: "set", val: 0 });
+        console.log("reset link");
+      } else {
+        resetAnim(200);
+      }
+    };
     //onhover change quote
     const onHover = function (e) {
       const idx = Array.from(
         e.target.parentElement.parentElement.children
       ).indexOf(e.target.parentElement);
       setLink({ type: "set", val: idx });
+      linkCanChange.current = false;
+      clearTimeout(invTm.current);
+      console.log("cleared");
+    };
+
+    const onLeave = function (e) {
+      linkCanChange.current = true;
+      invTm.current = resetTimeout();
     };
 
     //add onhover to icons
@@ -122,8 +197,36 @@ export default function MyContacts() {
     const iconDivs = document.querySelectorAll(
       "div.contactsbox > div.icons > a > div.icon"
     );
-    iconDivs.forEach((v, vi) => {
+
+    iconDivs.forEach((v) => {
       v.addEventListener("mouseenter", onHover);
+      v.addEventListener("mouseleave", onLeave);
+    });
+
+    document.addEventListener("visibilitychange", resetMainLink);
+    return () => {
+      document.removeEventListener("visibilitychange", resetMainLink);
+      iconDivs.forEach((v) => {
+        v.removeEventListener("mouseenter", onHover);
+        v.removeEventListener("mouseleave", onLeave);
+      });
+    };
+  }, [resetTimeout]);
+
+  useEffect(() => {
+    transitionElem(mainLink);
+    if (mainLink === links.length - 1) {
+      invTm.current = resetTimeout(20 * 1000);
+    } else {
+      invTm.current = resetTimeout(5 * 1000);
+    }
+    console.log("running");
+
+    //display mainquote indicator
+    const iconDivs = document.querySelectorAll(
+      "div.contactsbox > div.icons > a > div.icon"
+    );
+    iconDivs.forEach((v, vi) => {
       if (vi === mainLink) {
         v.classList.add("main");
       } else {
@@ -132,14 +235,10 @@ export default function MyContacts() {
         }
       }
     });
-
     return () => {
-      clearTimeout(incLink);
-      iconDivs.forEach((v) => {
-        v.removeEventListener("mouseenter", onHover);
-      });
+      clearTimeout(invTm.current);
     };
-  }, [mainLink, transitionElem]);
+  }, [mainLink, transitionElem, randVal, resetTimeout]);
 
   return (
     <>
@@ -156,7 +255,7 @@ export default function MyContacts() {
           </div>
           <div className="icons">
             {links.map(({ title, icon: Icon, link }, vi) => (
-              <a href={link} key={vi} target="_blank">
+              <a href={link} rel="noreferrer" key={vi} target="_blank">
                 <div className="icon">
                   <Icon />
                   <div className="title">
@@ -168,11 +267,29 @@ export default function MyContacts() {
           </div>
         </div>
         <div className="footer">
-          <p className="mono">
-            Built &amp; designed by <a href={links[2].link}>Austin Gathii</a>
+          <div className="mono">
+            <div>
+              <a
+                rel="noreferrer"
+                href={links.find((v) => v.title === "github").link}
+                target="_blank"
+              >
+                Built &amp; designed
+              </a>
+            </div>{" "}
+            by{" "}
+            <div className="myname">
+              <a
+                rel="noreferrer"
+                href={links.find((v) => v.title === "linkedin").link}
+                target="_blank"
+              >
+                Austin Gathii
+              </a>
+            </div>
             <br />
             gathiiaustin@gmail.com
-          </p>
+          </div>
         </div>
       </div>
     </>

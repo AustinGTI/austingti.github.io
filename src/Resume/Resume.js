@@ -1,20 +1,8 @@
-import React, {
-  useState,
-  useLayoutEffect,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ReactComponent as Work } from "../data/icons/Work.svg";
 import { ReactComponent as School } from "../data/icons/School.svg";
 import "./Resume.scss";
 import PageBackground from "../SiteBackground/PageBackground";
-
-function setGrow(num) {
-  let resdiv = document.getElementsByClassName("resumedetail")[0];
-  resdiv.style.flexGrow = num;
-  if (num === 0) resdiv.style.display = "none";
-  else resdiv.style.display = "block";
-}
 
 function ResumeCard({ data, setMain, id }) {
   const { organization, position, link, type } = data;
@@ -409,10 +397,6 @@ export default function Resume() {
     };
   }, [mainEntry, updateTimelines]);
 
-  useLayoutEffect(() => {
-    if (mainEntry === undefined) setGrow(0);
-    else setGrow(1);
-  }, [mainEntry]);
   const resume = [
     {
       organization: "Strathmore University",

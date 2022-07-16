@@ -150,10 +150,39 @@ div.footer {
 
   opacity: 0.8;
 
-  a {
-    color: var(--primary-color);
-    text-decoration: underline solid white;
-    text-underline-offset: 2px;
+  > div {
+    padding-bottom: 10px;
+    div {
+      display: inline;
+      position: relative;
+      a {
+        color: var(--primary-color);
+        text-decoration: none;
+      }
+
+      &::after {
+        content: "";
+
+        position: absolute;
+        width: 0%;
+        height: 2px;
+
+        background-color: white;
+
+        border-radius: 1px;
+
+        bottom: -1px;
+        left: 0;
+
+        transition: width 200ms ease-in-out;
+      }
+
+      &:hover {
+        &::after {
+          width: 100%;
+        }
+      }
+    }
   }
 
   &::before {
@@ -168,6 +197,9 @@ div.footer {
     top: 0;
     bottom: 0;
     left: -30px;
+    filter: none;
+
+    transition: filter 200ms ease-in-out, height 200ms ease-in-out;
   }
 
   &::after {
@@ -182,5 +214,18 @@ div.footer {
     top: 0;
     bottom: 0;
     right: -30px;
+    filter: none;
+
+    transition: filter 200ms ease-in-out, height 200ms ease-in-out;
+  }
+
+  &:hover {
+    &::before {
+      filter: drop-shadow(5px 0 8px var(--primary-color));
+    }
+
+    &::after {
+      filter: drop-shadow(-5px 0 8px var(--primary-color));
+    }
   }
 }

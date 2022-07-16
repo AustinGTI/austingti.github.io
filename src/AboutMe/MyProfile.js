@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
 import "./AboutMe.scss";
-import { ReactComponent as HtmlIcon } from "../data/icons/Stack/Html.svg";
-import { ReactComponent as CssIcon } from "../data/icons/Stack/Css.svg";
-import { ReactComponent as JsIcon } from "../data/icons/Stack/Javascript.svg";
-import { ReactComponent as PythonIcon } from "../data/icons/Stack/Python.svg";
-import { ReactComponent as DbIcon } from "../data/icons/Stack/Db.svg";
+
 import PageBackground from "../SiteBackground/PageBackground";
 
-function BaseStack({ data }) {
+/*function BaseStack({ data }) {
   //const { base, icon: Icon, stack } = data;
   const { icon: Icon, stack } = data;
   return (
@@ -16,21 +12,12 @@ function BaseStack({ data }) {
       {stack.map((v, vi) => (
         <div className="lang mono primary" key={vi}>
           {v.title}
-          {/* <p
-            style={{
-              fontSize: "10px",
-              lineHeight: "3px",
-              padding: "0",
-              color: "white",
-            }}
-          >
-            {"|".repeat(v.experience)}
-          </p> */}
+          
         </div>
       ))}
     </div>
   );
-}
+}*/
 
 export default function MyProfile() {
   /*const frontEnd = [
@@ -93,7 +80,6 @@ export default function MyProfile() {
   ];
 
   useEffect(() => {
-    const maindiv = document.querySelector("#btndiv");
     const childDivs = document.querySelectorAll(
       "#btndiv > div:not(.seperator)"
     );
@@ -156,7 +142,7 @@ export default function MyProfile() {
       const { duration, maxDrop, maxWidth, minWidth } =
         animationConstants.braceVars;
 
-      if (myVars.drop == 0) {
+      if (myVars.drop === 0) {
         target.style.animationName = "none";
       }
       if (myVars.drop < maxDrop) {

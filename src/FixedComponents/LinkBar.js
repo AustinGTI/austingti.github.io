@@ -3,10 +3,10 @@ import "./FixedComponents.scss";
 
 import { IconBrace, IconLineup } from "./NavBar";
 import { links } from "../MyContacts/MyContacts";
+import { transitionLinearGradient } from "../auxFuncs/motion";
 
 export default function LinkBar() {
   //offset and icons size constants..
-  const bottomOffset = 20;
   const perIconHeight = 58;
   const perIconWidth = 30;
   const leftOffset = 15;
@@ -62,16 +62,18 @@ export default function LinkBar() {
       //setting the dimensions of the navdiv
     };
     scrollFunc();
+    transitionLinearGradient(mynavbar, "to bottom", 30);
     window.addEventListener("scroll", scrollFunc);
 
     return () => window.removeEventListener("scroll", scrollFunc);
   }, []);
+
   return (
     <div
       className="linkbar"
       style={{
         width: `${perIconWidth + leftOffset * 2}px`,
-        height: `${bottomOffset * 2 + perIconHeight * links.length}px`,
+        height: `450px`,
       }}
     >
       <IconLineup
@@ -88,7 +90,7 @@ export default function LinkBar() {
                 left: `${leftOffset}px`,
               }}
             >
-              <a href={link} target="_blank">
+              <a href={link} rel="noreferrer" target="_blank">
                 <Icon className="icon" />
               </a>
             </li>

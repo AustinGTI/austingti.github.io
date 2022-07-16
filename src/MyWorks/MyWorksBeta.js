@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./MyWorksBeta.scss";
 import { ReactComponent as FirstSite } from "../data/icons/Site_1.svg";
 import { ReactComponent as SecondSite } from "../data/icons/Site_2.svg";
@@ -11,6 +11,44 @@ import { ReactComponent as NextIcon } from "../data/icons/Next.svg";
 
 import { easeInOut } from "../auxFuncs/motion";
 import PageBackground from "../SiteBackground/PageBackground";
+
+const worksData = [
+  {
+    id: 1,
+    title: "taifa.io",
+    description:
+      "A website that tracks the relationship between politics and development across the country...",
+    icon: FirstSite,
+  },
+  {
+    id: 2,
+    title: "scribe.io",
+    description:
+      "A website that uses machine learning to analyze users typing habits and train them to type faster...",
+    icon: SecondSite,
+  },
+  {
+    id: 3,
+    title: "abode.me",
+    description:
+      "A website that tracks vital real estate factors across the country to determine the best value for money housing...",
+    icon: ThirdSite,
+  },
+  {
+    id: 4,
+    title: "mindstream.io",
+    description:
+      "A website that allows a user to create flashcards and use them to memorize facts through smart repition...",
+    icon: FourthSite,
+  },
+  {
+    id: 5,
+    title: "99shades.io",
+    description:
+      "A website that provides an interface for selecting and iterating over every possible visible color..",
+    icon: FifthSite,
+  },
+];
 
 function Pillar({ side, data }) {
   if (side === "left") {
@@ -89,44 +127,6 @@ function Pillar({ side, data }) {
 }
 
 export default function MyWorksBeta() {
-  const worksData = [
-    {
-      id: 1,
-      title: "taifa.io",
-      description:
-        "A website that tracks the relationship between politics and development across the country...",
-      icon: FirstSite,
-    },
-    {
-      id: 2,
-      title: "scribe.io",
-      description:
-        "A website that uses machine learning to analyze users typing habits and train them to type faster...",
-      icon: SecondSite,
-    },
-    {
-      id: 3,
-      title: "abode.me",
-      description:
-        "A website that tracks vital real estate factors across the country to determine the best value for money housing...",
-      icon: ThirdSite,
-    },
-    {
-      id: 4,
-      title: "mindstream.io",
-      description:
-        "A website that allows a user to create flashcards and use them to memorize facts through smart repition...",
-      icon: FourthSite,
-    },
-    {
-      id: 5,
-      title: "99shades.io",
-      description:
-        "A website that provides an interface for selecting and iterating over every possible visible color..",
-      icon: FifthSite,
-    },
-  ];
-
   //set the width of the sitecarriers to a multiple of the number of works
   useEffect(() => {
     //preseting the carrier widths and transforms...
@@ -193,12 +193,12 @@ export default function MyWorksBeta() {
       let pillarCarriers = [...lsliders, ...rsliders];
 
       //currposition
-      let pattern = /[\d\.-]+/g;
+      let pattern = /[\d.-]+/g;
       let currPosition = parseInt(carriers[0].style.transform.match(pattern));
 
       //targetposition
       let rawPosition = undefined;
-      if (offset == undefined) {
+      if (offset === undefined) {
         rawPosition =
           Array.from(
             e.target.parentElement.parentElement.parentElement.children
@@ -355,9 +355,9 @@ export default function MyWorksBeta() {
     const imagedisplay = document.querySelector("div.siteimage");
     const textdisplay = document.querySelector("div.sitetext");
     function revealOnHover(e) {
-      if (e.type == "mouseenter") {
+      if (e.type === "mouseenter") {
         textdisplay.classList.add("hidden");
-      } else if (e.type == "mouseleave") {
+      } else if (e.type === "mouseleave") {
         textdisplay.classList.remove("hidden");
       }
     }
@@ -377,7 +377,7 @@ export default function MyWorksBeta() {
       imagedisplay.removeEventListener("mouseenter", revealOnHover);
       imagedisplay.removeEventListener("mouseleave", revealOnHover);
     };
-  }, [worksData.length]);
+  }, []);
 
   //change the position of the siteimage flex and the sitetext flex and the sitetoggle flex on change of loosescroller
 

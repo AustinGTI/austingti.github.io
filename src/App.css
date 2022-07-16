@@ -1,5 +1,6 @@
-.main {
+#root > div.main {
   position: relative;
   max-width: 85%;
   margin: 0 auto;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 0%);
 }

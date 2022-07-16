@@ -4,7 +4,7 @@ import { ReactComponent as AboutMeIcon } from "../data/icons/AboutMe.svg";
 import { ReactComponent as ProjectsIcon } from "../data/icons/Projects.svg";
 import { ReactComponent as ExpIcon } from "../data/icons/Work.svg";
 import { ReactComponent as ContactIcon } from "../data/icons/ContactB.svg";
-import { easeInOut } from "../auxFuncs/motion";
+import { easeInOut, transitionLinearGradient } from "../auxFuncs/motion";
 
 export function IconBrace({ width, height }) {
   //const [ratio, setRatio] = useEffect(1);
@@ -54,30 +54,31 @@ export function IconLineup({ length, inv = false, height = 300, width = 30 }) {
   );
 }
 
-export default function NavBar() {
-  const sections = [
-    {
-      title: "About Me",
-      link: "#myprofile",
-      icon: AboutMeIcon,
-    },
+const sections = [
+  {
+    title: "About Me",
+    link: "#myprofile",
+    icon: AboutMeIcon,
+  },
 
-    {
-      title: "Resume",
-      link: "#myresume",
-      icon: ExpIcon,
-    },
-    {
-      title: "Projects",
-      link: "#myworksbeta",
-      icon: ProjectsIcon,
-    },
-    {
-      title: "Contact",
-      link: "#mycontacts",
-      icon: ContactIcon,
-    },
-  ];
+  {
+    title: "Resume",
+    link: "#myresume",
+    icon: ExpIcon,
+  },
+  {
+    title: "Projects",
+    link: "#myworksbeta",
+    icon: ProjectsIcon,
+  },
+  {
+    title: "Contact",
+    link: "#mycontacts",
+    icon: ContactIcon,
+  },
+];
+
+export default function NavBar() {
   //constant values denoting the positioning of the navbar
   const topOffset = 20;
   const perIconHeight = 100;
@@ -191,7 +192,10 @@ export default function NavBar() {
       });
       //setting the dimensions of the navdiv
       mynavbar.style.width = `${maxDims[0] + perIconWidth + rightOffset}px`;
-      mynavbar.style.height = `${maxDims[1] + perIconHeight + topOffset}px`;
+      mynavbar.style.height = `${Math.max(
+        455,
+        maxDims[1] + perIconHeight + topOffset
+      )}px`;
 
       //setting the dimensions of the navlist
       mynavlist.style.width = `${maxDims[0] + perIconWidth + rightOffset}px`;
@@ -212,7 +216,7 @@ export default function NavBar() {
       //.............................
       e.stopPropagation();
       let base = e.target;
-      while (base.tagName.toLowerCase() != "li") {
+      while (base.tagName.toLowerCase() !== "li") {
         base = base.parentElement;
       }
       const btnIdx = Math.floor(
@@ -256,9 +260,12 @@ export default function NavBar() {
       window.removeEventListener("scroll", scrollFunc);
       mybts.forEach((v) => v.removeEventListener("click", scrollToPage));
     };
-  }, [sections]);
+  }, []);
 
-  const [active, setActive] = useState("About Me");
+  useEffect(() => {
+    let elem = document.querySelector("div.navbar");
+    transitionLinearGradient(elem, "to right", 30);
+  }, []);
 
   return (
     <div className="navbar">

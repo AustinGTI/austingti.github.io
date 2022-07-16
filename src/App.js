@@ -5,15 +5,16 @@ import Resume from "./Resume/Resume";
 import "./App.css";
 import MyContacts from "./MyContacts/MyContacts";
 import MyWorksBeta from "./MyWorks/MyWorksBeta";
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 
-import { easeInOut } from "./auxFuncs/motion";
-import Logo from "./Logo/Logo";
+import { easeInOut, transitionLinearGradient } from "./auxFuncs/motion";
+import Logo from "./Branding/Logo";
+import Intro from "./Branding/Intro";
 
 //OUR PALLETE
 //https://coolors.co/palette/131515-2b2c28-339989-7de2d1-fffafb
 
-function Bg({ width, height, maxRadius, respRadius, color }) {
+/*function Bg({ width, height, maxRadius, respRadius, color }) {
   let circles = [];
   for (let h = 0; h < height / maxRadius; h++) {
     for (let w = 0; w < width / maxRadius; w++) {
@@ -28,16 +29,6 @@ function Bg({ width, height, maxRadius, respRadius, color }) {
     }
   }
 
-  useEffect(() => {
-    const circlesRespond = function (e) {
-      const [mx, my] = [e.x, e.y];
-    };
-
-    window.addEventListener("mousemove", circlesRespond);
-    return () => {
-      window.removeEventListener("mousemove", circlesRespond);
-    };
-  }, [circles]);
   return (
     <svg width={`${width}px`} height={`${height}px`}>
       <g>
@@ -54,11 +45,14 @@ function Bg({ width, height, maxRadius, respRadius, color }) {
       </g>
     </svg>
   );
-}
+}*/
 
 function App() {
-  console.log("done");
+  const [intro, initSite] = useReducer(() => false, true);
   useEffect(() => {
+    if (intro) {
+      return;
+    }
     const retData = {
       debounceDuration: 500,
       animSpeed: 400 / 1000, //100 px per s
@@ -90,7 +84,7 @@ function App() {
     );
     const enterKey = document.querySelector("#root > div.logo rect.enterBtn");
     const snapToPage = (e) => {
-      if (retData.animId != undefined) {
+      if (retData.animId !== undefined) {
         return;
       }
       clearTimeout(retData.tmId);
@@ -156,19 +150,22 @@ function App() {
         clearInterval(data.tAnim);
         page.querySelector("div.code").innerText = codesnippet;
         enterKey.style.fill = "var(--primary-color)";
-        setTimeout(resetKey, 200, enterKey);
+
+        setTimeout(resetKey, 300, enterKey);
         return;
       }
-      if (Math.random() > 0.7) {
-        let key = logoKeys[Math.floor(Math.random() * logoKeys.length)];
-        key.style.fill = "var(--primary-color-lite)";
-        setTimeout(resetKey, 100, key);
-      }
+      let currTxt = page.querySelector("div.code").innerText.slice();
 
       page.querySelector("div.code").innerText = codesnippet.slice(
         0,
         parseInt((data.tFrame / ttFrames) * codesnippet.length)
       );
+
+      if (currTxt !== page.querySelector("div.code").innerText) {
+        let key = logoKeys[Math.floor(Math.random() * logoKeys.length)];
+        key.style.fill = "var(--primary-color-lite)";
+        setTimeout(resetKey, 100, key);
+      }
     };
     const appearBg = (data, ttFrames, currOp, vecOp, page) => {
       data.aFrame += 1;
@@ -242,11 +239,9 @@ function App() {
         );
         bgData.appearTm = setTimeout(
           (data, ttFrames, currOp, vecOp) => {
-            console.log("now reappearing...", bgData.vFrame);
             clearInterval(bgData.vAnim);
             bgData.vFrame = 0;
 
-            console.log(currPage);
             data.isVanished = false;
 
             data.aAnim = setInterval(
@@ -299,6 +294,8 @@ function App() {
       );
     };
     refreshOpacity();
+    let elem = document.querySelector("div.main");
+    transitionLinearGradient(elem, "to bottom", 30, 20 / 1000);
     window.addEventListener("scroll", snapToPage);
     window.addEventListener("scroll", refreshOpacity);
 
@@ -306,25 +303,24 @@ function App() {
       window.removeEventListener("scroll", snapToPage);
       window.removeEventListener("scroll", refreshOpacity);
     };
-  }, []);
+  }, [intro]);
   return (
     <>
-      {/* <Bg
-        width={window.innerWidth}
-        height={window.innerHeight * 4}
-        maxRadius={50}
-        respRadius={200}
-        color={"hsl(224, 60%, 7%)"}
-      /> */}
-      <Logo />
-      <NavBar />
-      <div className="main">
-        <MyProfile />
-        <Resume />
-        <MyWorksBeta />
-        <MyContacts />
-      </div>
-      <LinkBar />
+      {intro ? (
+        <Intro launchSite={initSite} />
+      ) : (
+        <>
+          <Logo />
+          <NavBar />
+          <div className="main">
+            <MyProfile />
+            <Resume />
+            <MyWorksBeta />
+            <MyContacts />
+          </div>
+          <LinkBar />
+        </>
+      )}
     </>
   );
 }

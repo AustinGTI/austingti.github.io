@@ -7,6 +7,7 @@
 .linkbar {
   position: fixed;
   border: 0px solid var(--sec-color);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 0%);
 
   text-align: center;
 
@@ -77,6 +78,10 @@
   right: 0px;
   border-radius: 0 0 20px 20px;
   z-index: 999;
+  --lbound: 0%;
+  --rbound: 10%;
+
+  animation: fadeinright 1s ease-in 0s 1 normal forwards;
 
   ul {
     list-style-type: none;
