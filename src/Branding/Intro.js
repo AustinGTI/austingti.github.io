@@ -13,7 +13,7 @@ export default function Intro({ launchSite }) {
       tFrame: 0,
       pFrame: 0,
       tSpeed: 7 / 1000, //chars per ms
-      pSpeed: 50 / 1000, //% per ms
+      pSpeed: 75 / 1000, //% per ms
       tAnim: undefined,
       pAnim: undefined,
     };

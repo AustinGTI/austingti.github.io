@@ -45,7 +45,7 @@
         }
       }
       span.title {
-        font-size: 17px;
+        font-size: 16px;
         float: left;
       }
       &::before {
@@ -91,7 +91,7 @@
 
         span.tag {
           svg {
-            filter: drop-shadow(0 0 3px var(--primary-color));
+            filter: drop-shadow(0 0 5px var(--primary-color));
           }
         }
       }
@@ -114,6 +114,13 @@
     margin: 10vh 1vw;
     padding: 0 0;
     height: 100%;
+
+    .orglink {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline solid white 3px;
+      }
+    }
 
     ul {
       list-style: none;

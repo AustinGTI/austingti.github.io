@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Mono&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
 
 :root {
   --primary-color: rgb(111, 247, 232);
@@ -11,7 +12,7 @@
 body {
   background-color: var(--bg-color);
   color: white;
-  font-family: "Open Sans", sans-serif !important;
+  font-family: "Nunito", sans-serif !important;
   overflow-x: hidden;
 }
 

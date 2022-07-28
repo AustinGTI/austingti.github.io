@@ -131,7 +131,6 @@ export default function MyContacts() {
         document.querySelector("#mycontacts").getBoundingClientRect().y < 10 &&
         linkCanChange.current
       ) {
-        console.log("incing...");
         setLink({ type: "inc" });
       }
     }, t);
@@ -154,7 +153,6 @@ export default function MyContacts() {
       if (entries[0].isIntersecting) {
         setLink({ type: "set", val: 0 });
         rerenderComp(Math.random());
-        console.log("intersect");
       } else {
         resetAnim(1000);
       }
@@ -171,7 +169,6 @@ export default function MyContacts() {
     const resetMainLink = (e) => {
       if (document.visibilityState === "visible") {
         setLink({ type: "set", val: 0 });
-        console.log("reset link");
       } else {
         resetAnim(200);
       }
@@ -184,7 +181,6 @@ export default function MyContacts() {
       setLink({ type: "set", val: idx });
       linkCanChange.current = false;
       clearTimeout(invTm.current);
-      console.log("cleared");
     };
 
     const onLeave = function (e) {
@@ -220,7 +216,6 @@ export default function MyContacts() {
     } else {
       invTm.current = resetTimeout(5 * 1000);
     }
-    console.log("running");
 
     //display mainquote indicator
     const iconDivs = document.querySelectorAll(

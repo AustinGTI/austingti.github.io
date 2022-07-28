@@ -64,7 +64,7 @@ function ResumeDetail({ data }) {
 
       <h2>
         {type === "school" ? "Went to school at " : "Worked at "}
-        <a className="primary" style={{ textDecoration: "none" }} href={link}>
+        <a className="primary orglink" href={link}>
           {organization}
         </a>
       </h2>
@@ -420,7 +420,7 @@ export default function Resume() {
       description:
         "Developed a wide variety of wordpress based websites with custom php plugins",
       position: "Web Developer",
-      duration: [new Date(2020, 2), new Date(2020, 4)],
+      duration: [new Date(2020, 1), new Date(2020, 4)],
     },
     {
       organization: "Iansoft Limited",
@@ -436,7 +436,7 @@ export default function Resume() {
       link: "https://microhouse.co.ke/",
       type: "work",
       description:
-        "Managed, cleaned and analyzed a large SQL database of user data in a team with 3 other programmers",
+        "Managed, cleaned and analyzed a large SQL database of user data in a team with 2 other engineers",
       position: "Data Analyst",
       duration: [new Date(2022, 2), new Date(2022, 7)],
     },

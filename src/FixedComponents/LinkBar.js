@@ -29,7 +29,10 @@ export default function LinkBar() {
         v.classList.add("iconBtn");
       }
     });
-    const scrollLimit = [1426, 1800];
+    const scrollLimit = [
+      document.body.scrollHeight - window.innerHeight - 374,
+      document.body.scrollHeight - window.innerHeight,
+    ];
     const scrollRange = scrollLimit[1] - scrollLimit[0];
     /*const aspectRatio = 0.8;
     const stretchFactor = 3;

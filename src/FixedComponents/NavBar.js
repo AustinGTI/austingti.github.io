@@ -72,7 +72,7 @@ const sections = [
   //   icon: ProjectsIcon,
   // },
   {
-    title: "Contact",
+    title: "Contacts",
     link: "#mycontacts",
     icon: ContactIcon,
   },

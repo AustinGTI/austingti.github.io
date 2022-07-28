@@ -276,7 +276,6 @@ function App() {
       let currOpacity = parseFloat(
         window.getComputedStyle(currPage).getPropertyValue("opacity")
       );
-      console.log(currOpacity);
       let targetOpacity = 0;
 
       let mFrames =
