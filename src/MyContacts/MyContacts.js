@@ -24,7 +24,7 @@ export const links = [
   },
   {
     title: "linkedin",
-    link: "https://linkedin.com/in/austin-gathii",
+    link: "https://linkedin.com/in/austingti",
     icon: LinkedInIcon,
     quotes: ["Take a look at my linkedIn page..."],
   },
@@ -36,7 +36,7 @@ export const links = [
   },
   {
     title: "CV",
-    link: require("../data/contacts/cv_2022.pdf"),
+    link: require("../data/contacts/cv_2022_fin.pdf"),
     icon: CVIcon,
     quotes: ["Download my CV..."],
   },
