@@ -6,4 +6,4 @@ The primary framework used was [React](https://reactjs.org/) for components and 
 
 At the moment the site is complete but constant improvements are being made to better organize the code and perhaps provide functionality to use it as a template for other developers portfolios.
 
-The site is hosted on [Github]("https://austingti.github.io")
+The site is hosted on [Github](https://austingti.github.io)
