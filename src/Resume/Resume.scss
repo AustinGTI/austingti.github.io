@@ -14,8 +14,8 @@
 
   .resumelist {
     display: flex;
-    flex-basis: 0;
-    flex-grow: 1;
+    flex-basis: 35vw;
+    flex-grow: 0;
     flex-direction: column;
     margin: auto auto;
     max-width: 50vw;
@@ -97,7 +97,7 @@
       }
     }
 
-    a {
+    span.organization {
       text-decoration: none;
       color: var(--primary-color);
     }
@@ -111,9 +111,14 @@
   flex-grow: 1;
 
   > div {
-    margin: 10vh 2vw;
-    padding: 0 10px;
+    margin: 10vh 1vw;
+    padding: 0 0;
     height: 100%;
+
+    ul {
+      list-style: none;
+      padding-left: 0px;
+    }
 
     > span > svg {
       height: 30px;

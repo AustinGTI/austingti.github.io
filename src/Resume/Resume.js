@@ -19,9 +19,7 @@ function ResumeCard({ data, setMain, id }) {
           <span className="title mono">
             {/* <span className="bullet">&gt;</span> */}
             {" " + position} at{" "}
-            <a href={link} target="_blank" rel="noreferrer">
-              {organization}
-            </a>
+            <span className="organization">{organization}</span>
           </span>
           <span className="tag">
             {type === "school" ? <School /> : <Work />}
@@ -398,30 +396,30 @@ export default function Resume() {
   }, [mainEntry, updateTimelines]);
 
   const resume = [
-    {
+    /*{
       organization: "Strathmore University",
       link: "https://strathmore.edu/",
       type: "school",
-      description: "Completed a 3 month accounting course (ACCA)",
+      description: "Completed the first 3 courses (ACCA)",
       position: "student",
       duration: [new Date(2018, 3), new Date(2018, 6)],
-    },
+    },*/
     {
       organization: "Strathmore University",
       link: "https://strathmore.edu/",
       type: "school",
       description:
         "Earned a bachelors degree in Informatics and Computer Science",
-      position: "student",
+      position: "Student",
       duration: [new Date(2018, 7), new Date(2022, 2)],
     },
     {
-      organization: "Microhouse Technologies",
-      link: "https://microhouse.co.ke/",
+      organization: "Smart Data Analytical Ltd",
+      link: "https://home.smartd.co.ke/",
       type: "work",
       description:
-        "Developed a wide variety of wordpress websites over a 3 month long internship",
-      position: "intern",
+        "Developed a wide variety of wordpress based websites with custom php plugins",
+      position: "Web Developer",
       duration: [new Date(2020, 2), new Date(2020, 4)],
     },
     {
@@ -429,9 +427,18 @@ export default function Resume() {
       link: "https://www.iansoftltd.com/",
       type: "work",
       description:
-        "Helped build enterprise software solutions over a 3 month long internship",
-      position: "intern",
+        "Assisted senior programmers in building enterprise software solutions over the course of a 3 month long internship",
+      position: "Intern",
       duration: [new Date(2021, 2), new Date(2021, 4)],
+    },
+    {
+      organization: "Microhouse Technologies",
+      link: "https://microhouse.co.ke/",
+      type: "work",
+      description:
+        "Managed, cleaned and analyzed a large SQL database of user data in a team with 3 other programmers",
+      position: "Data Analyst",
+      duration: [new Date(2022, 2), new Date(2022, 7)],
     },
   ];
   return (

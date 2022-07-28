@@ -416,14 +416,15 @@ export default function MyProfile() {
           <h1>Hi,</h1>
           <h1>My name is</h1>
           <h2>Austin Gathii.</h2>
-          <h3>A Nairobi-based fullstack developer.</h3>
+          <h3>A Nairobi-based software engineer.</h3>
         </div>
 
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
+          I am a software engineer currently specializing in full-stack web
+          development with django and react. I have 3 years of experience with
+          python and have recently used python for large data analysis. I also
+          have some experience with php and Android development with Java as a
+          result of recent academic projects.
         </p>
         {/* <div id="btndiv">
           <div>

@@ -245,7 +245,7 @@ export default function MyContacts() {
       <div id="mycontacts">
         <div className="contactsbox">
           <PageBackground
-            codeSnippet={"displayContacts() // #4."}
+            codeSnippet={"displayContacts() // #3."}
             parentid={"mycontacts"}
           />
           <h1 className="mono">Get in touch.</h1>
@@ -271,7 +271,9 @@ export default function MyContacts() {
             <div>
               <a
                 rel="noreferrer"
-                href={links.find((v) => v.title === "github").link}
+                href={
+                  links.find((v) => v.title === "github").link + "/austingti"
+                }
                 target="_blank"
               >
                 Built &amp; designed

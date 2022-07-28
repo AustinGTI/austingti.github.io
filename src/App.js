@@ -315,7 +315,7 @@ function App() {
           <div className="main">
             <MyProfile />
             <Resume />
-            <MyWorksBeta />
+            {/* <MyWorksBeta /> */}
             <MyContacts />
           </div>
           <LinkBar />

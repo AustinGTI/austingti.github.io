@@ -66,11 +66,11 @@ const sections = [
     link: "#myresume",
     icon: ExpIcon,
   },
-  {
-    title: "Projects",
-    link: "#myworksbeta",
-    icon: ProjectsIcon,
-  },
+  // {
+  //   title: "Projects",
+  //   link: "#myworksbeta",
+  //   icon: ProjectsIcon,
+  // },
   {
     title: "Contact",
     link: "#mycontacts",
@@ -106,10 +106,10 @@ export default function NavBar() {
       }
     });
 
-    const scrollLimit = [100, 450];
+    const scrollLimit = [100, 450]; //change back to 450 when adding works display
     const scrollRange = scrollLimit[1] - scrollLimit[0];
     const aspectRatio = 0.9;
-    const navOffsetRight = 0.15;
+    const navOffsetRight = 0.2;
     const navOffsetTop = 0.05;
 
     const btStats = Array.from(Array(mybts.length).keys()).map(
@@ -204,7 +204,7 @@ export default function NavBar() {
     const animSts = {
       duration: 1000,
       perFrame: 10,
-      avgSpeed: 1000 / 1000, //to prevent different anims taking the same time.. avgspeed in px per ms
+      avgSpeed: 1500 / 1000, //to prevent different anims taking the same time.. avgspeed in px per ms
       animId: undefined,
       currframe: 0,
     };
