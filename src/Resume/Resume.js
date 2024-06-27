@@ -50,14 +50,18 @@ function durationToDate(duration) {
             ? ""
             : " " + duration[0].getFullYear()
     }`;
-    let to = (duration[1].getMonth() === new Date().getMonth()) ? "Now" : `${monthNames[duration[1].getMonth()]} ${duration[1].getFullYear()}`;
+    let to = (
+        duration[1].getMonth() === new Date().getMonth()
+    ) ? "Now" : `${monthNames[duration[1].getMonth()]} ${duration[1].getFullYear()}`;
     return `${from} - ${to}`;
 }
 
 function ResumeDetail({data}) {
     const {organization, link, type, description, duration} = data;
     console.log("new");
-    const verbTense = (duration[1].getMonth() !== new Date().getMonth()) ? ["Went", "Worked"] : ["Go", "Work"];
+    const verbTense = (
+        duration[1].getMonth() !== new Date().getMonth()
+    ) ? ["Went", "Worked"] : ["Go", "Work"];
     return (
         <div>
             <span>{type === "school" ? <School/> : <Work/>}</span>
@@ -88,8 +92,12 @@ function indicateTimeline(year, duration) {
     const msPerYear = 1000 * 60 * 60 * 24 * 365;
     let yearDate = new Date(year, 1);
     let range = [
-        1 - Math.min(Math.max(0, (duration[0] - yearDate) / msPerYear), 1),
-        1 - Math.min(Math.max(0, (duration[1] - yearDate) / msPerYear), 1),
+        1 - Math.min(Math.max(0, (
+            duration[0] - yearDate
+        ) / msPerYear), 1),
+        1 - Math.min(Math.max(0, (
+            duration[1] - yearDate
+        ) / msPerYear), 1),
     ];
     return range;
 }
@@ -100,11 +108,19 @@ function TimelineSingle({idx, x, yearRange, currRange, rl, vi}) {
             className={`indicator group-${idx + 1} ${rl ? "right" : "left"}`}
             x1={`${x}%`}
             y1={`${parseInt(
-                10 + vi * (80 / yearRange) + 3 + (80 / yearRange - 6) * currRange[1]
+                10 + vi * (
+                    80 / yearRange
+                ) + 3 + (
+                    80 / yearRange - 6
+                ) * currRange[1]
             )}%`}
             x2={`${x}%`}
             y2={`${parseInt(
-                10 + vi * (80 / yearRange) + 3 + (80 / yearRange - 6) * currRange[0]
+                10 + vi * (
+                    80 / yearRange
+                ) + 3 + (
+                    80 / yearRange - 6
+                ) * currRange[0]
             )}%`}
             style={{
                 strokeWidth: "5px",
@@ -116,8 +132,8 @@ function TimelineSingle({idx, x, yearRange, currRange, rl, vi}) {
 }
 
 function ResumeTimelineBeta({timeranges}) {
-    const yearRange = 5;
-    const years = [2018, 2019, 2020, 2021, 2022].reduce(
+    const yearRange = 7;
+    const years = [2018, 2019, 2020, 2021, 2022, 2023, 2024].reduce(
         (total, v, vi) => [v, ...total],
         []
     );
@@ -130,9 +146,15 @@ function ResumeTimelineBeta({timeranges}) {
                         <g key={vi}>
                             <line
                                 x1="47%"
-                                y1={`${parseInt(10 + vi * (80 / yearRange) + 3)}%`}
+                                y1={`${parseInt(10 + vi * (
+                                    80 / yearRange
+                                ) + 3)}%`}
                                 x2="47%"
-                                y2={`${parseInt(10 + (vi + 1) * (80 / yearRange) - 3)}%`}
+                                y2={`${parseInt(10 + (
+                                    vi + 1
+                                ) * (
+                                    80 / yearRange
+                                ) - 3)}%`}
                                 style={{
                                     stroke: "white",
                                     strokeWidth: "5px",
@@ -167,7 +189,11 @@ function ResumeTimelineBeta({timeranges}) {
 
                             <text
                                 x="42%"
-                                y={`${parseInt(10 + (vi + 1) * (80 / yearRange) + 1)}%`}
+                                y={`${parseInt(10 + (
+                                    vi + 1
+                                ) * (
+                                    80 / yearRange
+                                ) + 1)}%`}
                                 fill="white"
                                 className="mono"
                                 style={{fontSize: "12px"}}
@@ -181,114 +207,6 @@ function ResumeTimelineBeta({timeranges}) {
         </div>
     );
 }
-
-/*function ResumeTimeline({ timerange, hoverTimerange, hovIsMain }) {
-  const yearRange = 5;
-  const years = [2018, 2019, 2020, 2021, 2022].reduce(
-    (total, v, vi) => [v, ...total],
-    []
-  );
-  return (
-    <div className="resumetimeline">
-      <svg height="100%" width="100%">
-        {Array.from(Array(yearRange).keys()).map((v, vi) => {
-          let currRange = indicateTimeline(years[vi], timerange);
-          let hvRange = undefined;
-          if (hoverTimerange !== undefined) {
-            hvRange = indicateTimeline(years[vi], hoverTimerange);
-          }
-          return (
-            <g key={vi}>
-              <line
-                x1="47%"
-                y1={`${parseInt(10 + vi * (80 / yearRange) + 3)}%`}
-                x2="47%"
-                y2={`${parseInt(10 + (vi + 1) * (80 / yearRange) - 3)}%`}
-                style={{
-                  stroke: "white",
-                  strokeWidth: "5px",
-                  strokeLinecap: "round",
-                }}
-              />
-              {currRange[0] - currRange[1] === 0 ? (
-                ""
-              ) : (
-                <line
-                  className="indicator"
-                  x1="52%"
-                  y1={`${parseInt(
-                    10 +
-                      vi * (80 / yearRange) +
-                      3 +
-                      (80 / yearRange - 6) * currRange[1]
-                  )}%`}
-                  x2="52%"
-                  y2={`${parseInt(
-                    10 +
-                      vi * (80 / yearRange) +
-                      3 +
-                      (80 / yearRange - 6) * currRange[0]
-                  )}%`}
-                  style={{
-                    strokeWidth: "5px",
-                    stroke: "white",
-                    strokeLinecap: "round",
-                    ...(hovIsMain
-                      ? {
-                          filter:
-                            "drop-shadow(2px 0 3px var(--primary-color)) brightness(1.5)",
-                        }
-                      : {}),
-                  }}
-                />
-              )}
-              {hoverTimerange === undefined ||
-              hvRange[0] - hvRange[1] === 0 ||
-              hovIsMain ? (
-                ""
-              ) : (
-                <line
-                  className="indicator"
-                  x1="42%"
-                  y1={`${parseInt(
-                    10 +
-                      vi * (80 / yearRange) +
-                      3 +
-                      (80 / yearRange - 6) * hvRange[1]
-                  )}%`}
-                  x2="42%"
-                  y2={`${parseInt(
-                    10 +
-                      vi * (80 / yearRange) +
-                      3 +
-                      (80 / yearRange - 6) * hvRange[0]
-                  )}%`}
-                  style={{
-                    strokeWidth: "5px",
-                    stroke: "rgb(255,255,255,0.1)",
-                    strokeLinecap: "round",
-                    filter:
-                      "drop-shadow(2px 0 3px var(--primary-color)) brightness(1.5)",
-                  }}
-                />
-              )}
-              <text
-                x="42%"
-                y={`${parseInt(10 + (vi + 1) * (80 / yearRange) + 1)}%`}
-                fill="white"
-                className="mono"
-                style={{ fontSize: "12px" }}
-              >
-                {years[vi]}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
-    </div>
-  );
-}*/
-//......................
 
 export default function Resume() {
     const [mainEntry, setMainEntry] = useState(0);
@@ -423,15 +341,15 @@ export default function Resume() {
             position: "Web Developer",
             duration: [new Date(2020, 1), new Date(2020, 4)],
         },
-        {
-            organization: "Iansoft Limited",
-            link: "https://www.iansoftltd.com/",
-            type: "work",
-            description:
-                "Assisted senior programmers in building enterprise software solutions over the course of a 3 month long internship",
-            position: "Intern",
-            duration: [new Date(2021, 2), new Date(2021, 4)],
-        },
+        // {
+        //     organization: "Iansoft Limited",
+        //     link: "https://www.iansoftltd.com/",
+        //     type: "work",
+        //     description:
+        //         "Assisted senior programmers in building enterprise software solutions over the course of a 3 month long internship",
+        //     position: "Intern",
+        //     duration: [new Date(2021, 2), new Date(2021, 4)],
+        // },
         {
             organization: "Microhouse Technologies",
             link: "https://microhouse.co.ke/",
@@ -446,10 +364,17 @@ export default function Resume() {
             link: "https://standardmedia.co.ke",
             type: "work",
             description:
-                "Maintaining and debugging large API systems based on Laravel and building media websites with medium to high levels of user traffic using Laravel\n" +
-                "and Vue.js",
+                "Maintaining and debugging large API systems based on Laravel and building media websites with medium to high levels of user traffic using Laravel and Vue.js",
             position: "Web Developer",
-            duration: [new Date(2022, 9), new Date()],
+            duration: [new Date(2022, 9), new Date(2023, 3)],
+        },
+        {
+            organization: "Leta.ai",
+            link: "https://leta.ai/",
+            type: "work",
+            description: "Developed, maintained, and managed a logistics tracking and planning frontend platform using React and TypeScript integrated with backend gRPC services.",
+            "position": "Frontend Developer",
+            duration: [new Date(2023, 4), new Date()]
         }
     ];
     return (
