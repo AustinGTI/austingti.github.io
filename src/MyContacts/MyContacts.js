@@ -36,7 +36,7 @@ export const links = [
     },
     {
         title: "CV",
-        link: require("../data/contacts/cv_2024.pdf"),
+        link: require("../data/contacts/cv_2025.pdf"),
         icon: CVIcon,
         quotes: ["Download my CV..."],
     },
